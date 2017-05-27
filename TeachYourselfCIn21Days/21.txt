@@ -1,0 +1,28 @@
+第21天课程 编译器的高级用法
+
+模块化编程：主模块，辅助模块
+XXX list.c calc.c     XXX是用于执行编译器的命令。
+1.编译list.c，创建list.obj。2.编译calc.c，创建calc.obj。3.链接list.obj、calc.obj和所需的库函数，生成可执行文件list.exe。
+头文件包含：辅助模块中的函数的原型；定义模块使用的宏和符号常量的#define编译指令；模块使用的结构和外部变量的定义。
+外部变量：extern告诉编译器变量的首次声明位于其他地方，但在本模块中可见。所有的extern变量都是静态的。
+
+预处理： #define text1, text2    //用一种文本text1替换另一种文本text2
+#define创建函数宏  #define func(x) func的表达式  
+#字符串化运算符：参数被转换为用引号括起来的字符串；##拼接运算符：将两个字符串拼接起来，但不会加引号，也不对转义字符做处理。
+编译指令#include <>现在标准目录查找，再在当前目录查找。""只在当前目录查找。
+#if condition_1
+  statement_block_1
+#elif condition 2
+  statement_block_2
+  ...
+#else
+  default_statement_block
+#endif
+避免头文件被多次包含  #undef撤销对名称的定义。
+
+预定义的宏：__DATE__, __TIME__, __LINE__, __FILE__
+使用命令行参数：main(int argc, char *argv[])
+
+编译器将第一个文件用于决定。头文件的扩展名不必须是.h。包含头文件可以指定路径。
+
+END

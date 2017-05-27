@@ -1,0 +1,54 @@
+第14天课程 操纵屏幕、打印机和键盘
+
+5个标准流：    //标准流对所有程序来说都是同一个
+stdin     标准输入      键盘
+stdout    标准输出      屏幕
+stderr    标准错误      屏幕
+stdprn    标准打印机    打印机(LPT1:)      MS下支持，非ANSI        // \f表示换页
+stdaux    标准辅助      串行端口(COM1:)    MS下支持，非ANSI
+
+C语言的流函数：
+包含头文件: stdio.h（必须）
+包含头文件:            stdargs.h                                                                stdlib.h  
+使用标准流: printf()   vprintf()   puts()   putchar()  scanf()   vscanf()   gets()   getchar()  perror();
+需指定流名: fprintf()  vfprintf()  fputs()  putc()     fscanf()  vfscanf()  fgets()  getc()
+需指定流名:                                 fputc()                                  fgetc()
+
+int getchar(void);       //读取stdin流中下一个字符，缓冲,回显。               stdio.h
+int getch(void);         //读取stdin流中下一个字符，不缓冲，不回显。          conio.h    NO ANSI
+int getche(void);        //读取stdin流中下一个字符，不缓冲，回显。            NO ANSI
+int ungetc(int ch, FILE *fp);         //将要恢复的字符ch归还到指定流fp中，成功返回ch，否则返回EOF。
+char *gets(char *str);   //读取stdin中的字符，直到换行或文件末尾，存储到str指定的位置。成功返回指向str的指针，否则返回空指针。
+char *fgets(char *str, int n, FILE *fp);    //在指定输入流读取n-1个字符，遇到换行（读取换行符）或文件末尾提前结束，加上空字符存储到str指定的位置。成功返回指向str的指针，否则返回空指针。
+
+getc(), fgetc()
+
+scanf("%d", &x);            //转换命令组成: %[flag][field_width][.[precision]][1]conversion_char
+//类型说明符：int: d, i, o, u, x; char: c, s, [...](只读取列出的字符), [^...](只读取未列出的字符); float: a, e, f, g; None: %;
+//精度限定符：hh, h, l, ll, L;
+//scanf()只处理格式化字符串指定的字符数目，多余的字符仍然留在stdin中，直到程序下一次读入，可能会导致问题。需要主动清除。
+void clear_kb(void)    //自定义用来清除stdin剩余内容的函数
+{
+  char junk[80];
+  gets(junk);
+}
+int fflush(FILE *stream);     //用来清除流（包括标准流）中的信息。           stdio.h
+
+int putchar(int c);        //将存储在c中的字符写入到stdout，成功返回该字符，否则返回EOF。      stdio.h
+int fputc(int c, FILE *fp);      //将一个字符(或字符对应的ASCII码数字)发送给指定的流。
+int puts(char *cp);        //显示cp指向字符串结尾空字符前(不包括空字符)的所有字符并自动换行。成功返回正值，否则返回EOF(-1)。
+
+putc()
+
+printf("XXX %d XXX", &x);           //转换命令组成: %[flag][field_width][.[precision]][1]conversion_char
+//转换字符: d, l, u, o, x, X, c, e, E, f, g, G, n, s, %
+//限定符: l, ll, ., n, 0n, *(下个参数int指定字段宽度), -(左对齐), +(对有符号数标上符号),  (正数前加空格), #(在其他进制前加0) (n代表数字)
+//转义序列: \a(振铃), \b(回退), \n(换行), \t(水平制表符), \v(垂直制表符), \\(反斜杠), \?(问号), \'(单引号), \"(双引号)
+
+重定向输出(命令行提示符中):  程序名 > 目标名 or redirect > 目标名 (可以是标准流，也可以是文件。>会覆盖原文件，>>会附加到文件末尾)
+重定向输入(命令行提示符中):  程序名 < 源名 or redirect < 源名 (可以同时重定向 redirect < 源名 > 目标名)
+
+fprintf()    //可以指定输出流，处理磁盘文件。
+stderr  //标准错误流，不能被重定向，发送错误消息到屏幕。
+
+END

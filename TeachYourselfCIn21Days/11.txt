@@ -1,0 +1,47 @@
+第11天课程 结构、共用体和typedef
+
+简单结构
+struct tag(类型名){
+  structure_members(type 变量名)；
+} instance(结构名);
+
+struct tag(类型名) instance(结构名)；
+
+结构名.成员名     //结构中成员的使用
+
+复杂结构(结构嵌套）
+struct tag{
+  struct tag1 instance1;
+  struct tag2 instance2;
+} instancce;
+
+结构名.成员结构名.成员名
+
+结构数组： struct tag instance[n];      
+
+初始化 struct tag {} instance = {};   //按顺序读入，无需全部初始化。
+
+char数组和char指针作为结构体成员的区别：数组限制的字符串的长度，也浪费了多余空间。
+
+指向结构的指针：struct tag *instance_pointer, instence;    指向：instance_pointer = &instance;
+(*instance_pointer).structure_member 的另一种写法 instance_pointer -> structure_member
+
+使用指针和结构数组： ptr++ 等价于 ptr += sizeof(obj);
+
+共用体
+同一时间内，只有一个成员可用。共用体的所有成员占用的是同一个内存区域，它们互相覆盖。结构体可同时存储多个值，共用体只能存储一个值。初始化时只能初始化第一个成员
+
+union tag(类型名){
+  union_members(type 变量名);
+} instance(共用体名);
+
+一般是结构体嵌套共用体，结构体中存在变量用来识别共用体中存储数据的类型。
+
+typedef给结构体或共用体类型创建别名
+
+typedef struct {} othername;
+
+struct tag {};
+typedef struct tag othername;    使用别名无需包含关键字struct。
+
+END

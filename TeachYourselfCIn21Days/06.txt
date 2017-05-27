@@ -1,0 +1,26 @@
+第6天课程 基本的程序控制流程
+
+for(initial; condition; increment)
+  statement;
+1.执行表达式initial；
+2.判断condition；
+3.如果condition=0，for语句结束；
+4.如果condition不为0，执行statement语句；
+5.执行increment，返回到2。
+
+while(condition)
+  statement;
+1.计算表达式condition；
+2.如果condition为零，while语句结束；
+3.如果condition非零，执行statement语句；
+4.返回到第一步。
+
+for(;condition;) == while(statement)
+
+do
+  statement
+while(condition);
+1.执行statement中的语句；
+2.计算condition。如果为真，返回到第1步；否则循环结束。
+
+END

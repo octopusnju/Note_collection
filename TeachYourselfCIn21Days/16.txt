@@ -1,0 +1,53 @@
+第16天课程 使用磁盘文件
+
+文本模式文件中的行不同于字符串，不以空字符结尾，以回车符和换行符标记，与\n互相转换。
+
+stdio.h
+FILE *fopen(const char *filename, const char *mode); 
+//创建一个FILE结构的实例，并返回一个指向该实例的指针。失败则返回NULL。filename可以（应该）包含路径，双引号括起的字符串。
+mode：
+r 打开文件进行读取，若文件不存在则返回NULL；
+w 打开文件进行写入，若文件不存在则创建，若文件存在则删除它并创建新的空文件；
+a 打开文件追加内容，若文件不存在则创建，若文件存在则将新数据追加到文件末尾；
+r+ 打开文件进行读写，若文件不存在则创建，若文件存在则新数据写入到文件开头，覆盖原来的数据；
+w+ 打开文件进行读写，若文件不存在则创建，若文件存在则覆盖；
+a+ 打开文件进行读取和追加，若文件不存在则创建，存在则将新数据追加到文件末尾。
+二进制模式打开文件在模式参数后面加上b。
+
+写入文件方法：1. 格式化输出：只能用于文本和数字数据的文件；2. 字符输出：只用于文本数据；3. 直接输出：只适用于二进制文件。
+格式化文件输出
+int fprintf(FILE *fp, char *fmt, ...);  
+格式化文件输入
+int fscanf(FILE *fp, const char *fmt, ...);
+字符输入
+int getc(FILE *fp);  int fgetc(FILE *fp);  //返回读取的字符，错误则返回EOF。
+char *fgets(char *str, int n, FILE *fp);  //从fp中读取n-1个字符读入到str内存中，末尾加上空字符。成功返回str，失败返回NULL。
+字符输出
+int putc(int ch, FILE *fp);  int fputc(int ch, FILE *fp);  //输出ch，成功返回ch，失败返回EOF。
+char fputs(char *str, FILE *fp);  //将str指向的以空字符结尾的字符串写入fp指向的文件中（空字符除外），不会在末尾加上换行符。
+//成功则返回非负值，失败返回EOF。
+直接输入
+int fread(void *buf, int size, int count, FILE *fp);  //将二进制文件中的一个数据块读入到内存中。
+//buf指向内存区域，size指定要读取的每个数据项的长度，count指定读取的项数。返回成功读取的数据项数，否则返回值小于count。
+直接输出
+int fwrite(void *buf, int size, int count, FILE *fp);  //将内存中的一个数据块写入到二进制文件中。
+//buf指向内存区域，size指定每个数据项的长度，count指定写入的项数。返回成功写入的数据项数，否则返回值小于count。
+
+int fclose(FILE *fp);  //关闭文件，成功返回0，否则返回-1。关闭时刷新文件的缓冲区(写入到文件中)。
+int fcloseall(void);  //关闭除标准流之外的所有打开的流，刷新所有的流缓冲区，返回关闭的流数。
+
+int fflush(FILE *fp);  //在不关闭流的情况下，刷新流的缓冲区，将文件缓冲区中的数据写入磁盘。
+int flushall(void);  //刷新所有打开的流的缓冲区。
+
+void rewind(FILE *fp);  //让文件的位置指示器指向文件开头。用于读取了文件中一些数据，并想从文件开头再次读取，又不想重新打开。
+long ftell(FILE *fp);  //返回当前位置离文件开头的字节数，错误返回-1L。
+int fseek(FILE *fp, long offset, int origin);  //将位置指示器指向文件的任何位置。移动距离由offset指定，origin指定相对位置。
+//io.h origin可取值：SEEK_SET 0 文件开头；SEEK_CUR 1 当前位置；SEEK_END 2 文件末尾。成功返回0，失败返回非零值。
+int feof(FILE *fp);  //如果到达文件的末尾，则返回0，否则返回非零值。 文本文件还可用while((c=fgetc(fp))!= EOF)判断。
+
+int remove(const char *filename);  //删除指定文件，文件不能处于打开状态。成功返回0，否则返回-1。
+int rename(const char *oldname, const char *newname);  //修改已有磁盘文件的名称（路径），文件必须处于相同磁盘驱动器中。
+//成功则返回0，错误则返回-1.
+char *tmpnam(char *s);  //s指向一个存储文件名的缓冲区，也可以是NULL，临时名存储在tmpnam的缓冲区中，返回指向该缓冲区的指针。
+
+END

@@ -1,0 +1,75 @@
+第17天课程 操纵字符串
+
+string.h
+
+size_t strlen(char *str);  //size_t是unsigned类型，返回一个无符号整数。
+//接受一个指向字符串的指针参数，返回str位置和下一个空字符（不包含）之间的字符数。
+
+char *strcpy(char *destination, const char *source);
+//将source指向的字符串（包括末尾空字符）复制到destination指向的位置，返回值为一个指向新字符串的指针。
+
+char *strncpy(char *destination, const char *source, size_t n);
+//将source中的前n个字符复制到destination中，少于n个则补足空字符，多余则不补空字符。
+
+char *strdup(char *source);
+//NO ANSI：使用malloc()分配空间，然后调用strcpy()。返回指向目标字符串的指针，失败则返回NULL。
+
+char *strcat(char *str1, char *str2);
+//将str2加到str1的后面，并将空字符移到新字符串的末尾。
+
+char *strncat(char *str1, const char *str2, size_t n);
+//用于拼接字符串，指定拼接str2的多少个字符。
+
+int strcmp(const char *str1, const char *str2);  //比较两个完整字符串，返回值：1<2，-1；1=2，0；1>2，1。
+int strncmp(const char *str1, const char *str2, size_t n);  //比较字符串的前n个字符。
+//比较字符串时大写字母永远小于小写字母，区分大小写。
+
+char *strchr(const char *str, int ch);  
+//从左到右，查找字符ch在字符串str中第一次出现的位置，找到则返回指向字符的指针，失败则返回NULL。
+
+char *strrchr(const char *str, int ch);  
+//查找指定的字符ch在字符串str中最后一次出现的位置。成功返回指向此位置指针，失败返回NULL。
+
+size_t strcspn(const char *str1, const char *str2);  //从str1的第一个字符开始搜索，查找出现在str2中的字符而非str2字符串。
+//找到则返回该字符离str1开头的距离，找不到则返回strlen(str1)。表面第一个匹配的字符是末尾的空字符。
+
+size_t strspn(const char *str1, const char *str2);  
+//将str1中每个字符同str2的字符进行比较，返回第一个不被包含的位置离开头的距离。
+
+char *strpbrk(const char *str1, const char *str2);  //类似于strcspn()，但查找时不考虑结尾的空字符。
+//返回指向查找到的字符的指针，没找到则返回NULL。
+
+char *strstr(const char *str1, const char *str2);   //查找一个字符串在另一个字符串中首次出现的位置，查找str2字符串而非字符。
+//返回一个指向str2在str1中第一次出现位置的指针，没找到则返回NULL。
+
+char *strlwr(char *str);  //NO ANSI，将str中所有的大写字母转换为小写。返回str，不创建新字符串。
+char *strupr(char *str);  //NO ANSI，将str中所有的小写字母转换为大写。返回str，不创建新字符串。
+
+char *strrev(char *str);  //NO ANSI，将字符串中所有字符的排列顺序反转，末尾空字符不变，返回str。
+char *strset(char *str, int ch);   //NO ANSI，将字符串str中的所有字符（除空字符）修改为指定的字符ch，返回str。
+char *strnset(char *str, int ch, size_t n);    //NO ANSI, 将字符串str中的n个字符（除空字符）修改为指定的字符ch，返回str。
+
+字符串转换为数字  stdlib.h
+int atoi(const char *ptr);  //将ptr指向的字符串转换为一个int值，开头可包含空白或正负号，转换从开头进行，直到遇到不可转字符。
+long atol(const char *ptr);  //返回long型。
+long long atoll(const char *ptr);  //返回long long型。
+double atof(const char *str);  //返回double型。
+
+字符检测函数  ctype.h
+int isXXX(int ch);  //如果ch是XXX，则返回TRUE(1)，否则返回FALSE(0)。
+isalnum();  //字母或数字
+isalpha();  //字母
+isblank();  //空
+iscntrl();  //控制字符
+isdigit();  //数字
+isgraph();  //打印字符（空白除外）
+islower();  //小写字母
+isprint();  //打印字符（包括空白）
+ispunct();  //标点
+isspace();  //空白字符（空格、水平制表符、垂直制表符、换行符、换页符、回车）
+isupper();  //大写字母
+isxdigit();  //十六进制的数字
+
+int toupper(int ch);  int tolower(int ch);
+
+END

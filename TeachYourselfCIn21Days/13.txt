@@ -1,0 +1,21 @@
+第13天课程 高级程序流程控制
+
+break;      //用于循环或switch语句中，立刻终止当前的循环或switch语句。
+continue;   //用于循环中，结束当前的循环迭代，立刻进行下一次迭代，continue到循环体结尾之间的语句不执行。
+goto XXX;   XXX:(跳转目标标识)   //无条件转移，执行后立刻跳转。必须位于同一函数中，可以不是同一代码块。使用比较危险
+while(1){}    for(;;){}   do{}while(1)     //死循环
+//可以使用空循环来编写延时函数，通过循环次数来对于延迟的时间。
+
+delay() sleep() //time.h dos.h  NO ANSI
+
+switch(XXX){ case XXX: XXX; case XXX: XXX; ...; default: XXX; }    //default可以放在任何地方
+//比较成功之后会执行后面所有的代码，故需要添加break来截止。可不添加break为不同比较结果执行相同程序块。
+//if可进行真假比较，switch进行穷举比较（或在判断语句中添加真假比较）。
+
+exit(status);              //status为0代表正常终止，为1代表发生错误。   stdlib.h   返回值由操作系统检验
+#define EXIT_SUCCESS 0
+#define EXIT_FAILURE 1     //stdlib.h中定义
+
+system(command);           //在正在运行的程序中执行操作系统(系统依赖)命令。 command可以是字符和指向字符串的指针。   stdlib.h
+
+END

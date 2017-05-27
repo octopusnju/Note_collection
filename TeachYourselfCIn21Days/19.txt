@@ -1,0 +1,95 @@
+第19天课程 函数库
+
+数学函数    math.h
+三角函数（弧度）
+acos()        double acos(double x)                返回参数的反余弦。
+asin()        double asin(double x)                返回参数的反正弦。
+atan()        double atan(double x)                返回参数的反正切。
+atan2()       double atan2(double x, double y)     返回x/y的反正切。
+cos()         double cos(double x)                 返回参数的余弦。
+sin()         double sin(double x)                 返回参数的正弦。
+tan()         double tan(double x)                 返回参数的正切。
+指数函数和对数函数
+exp()         double exp(double x)                 返回e^x。
+log()         double log(double x)                 返回自然对数，参数必须大于0。
+log10()       double log10(double x)               返回以10为底的对数，参数必须大于0。
+frexp()       double frexp(double x, int *y)       返回一个范围为[0.5,1]的归一化小数，并将一个整数赋给y，使的x=r*2^y。
+ldexp()       double ldexp(double x, int y)        返回x*2^y。
+双曲函数
+cosh()        double cosh(double x)                返回双曲余弦。
+sinh()        double sinh(double x)                返回双曲正弦。
+tanh()        double tanh(double x)                返回双曲正切。
+其他数学函数
+sqrt()        double sqrt(double x)                返回平方根，参数必须大于等于0。
+ceil()        double ceil(double x)                返回不小于参数的最小整数。
+abs()         int abs(int x)                       返回绝对值。
+floor()       double floor(double x)               返回不大于参数的最大整数。
+modf()        double modf(double x, double *y)     
+将参数分为整数部分和小数部分，每部分的符号与参数相同，函数将小数部分返回，并将整数部分赋给*y。
+pow()         double pow(double x, double y)       返回x^y。
+fmod()        double fmod(double x, double y)      返回x/y的余数，符号与x相同。
+
+处理时间    time.h
+time_t, clock_t 对应于 long
+struct tm{
+  int tm_sec;        //seconds after the minute - [0, 59]
+  int tm_min;        //minutes after the hour - [0, 59]
+  int tm_hour;       //hours since midnight - [0, 23]
+  int tm_mday;       //day of the month - [1, 31]
+  int tm_mon;        //months since January - [0, 11]
+  int tm_year;       //years since 1900
+  int tm_wday;       //days since Sunday - [0, 6]
+  int tm_yday;       //days since January 1 - [0, 365]
+  int tm_isdst;      //daylight savings time flag
+};
+时间函数
+time_t time(time_t *timeptr);         //返回从1970.1.1午夜开始过去的秒数，并将值存储在ptr指向的变量中。
+struct tm *localtime(time_t *ptr);    //返回一个指向静态结构tm的指针，无需声明一个tm结构，只需声明一个tm指针，重复调用会覆盖。
+time_t mktime(struct tm *ntime);      //将tm结构转换为一个time_t值。从1970.1.1到ntime时间过去的秒数。
+char *asctime(struct tm *ptr);        //返回一个以特定格式表示时间的字符串。
+char *ctime(time_t *ptr);             //返回一个以特定格式表示时间的字符串。
+size_t strftime(char *s, size_t max, char *fmt, struct tm *ptr);  //接受一个tm结构作为参数，按格式化字符串对时间进行格式化。
+//按照格式化字符串fmt指定的格式，对ptr指向的tm结构表示的时间，将结果作为空字符结尾字符串写入s指向的内存，max表示s指向内存的大小。
+//如果结果字符串字符数超过max个，则函数返回0，s指向的字符串无效。否则返回写入的字符数strlen(s)。
+说明符：
+%a星期名缩写，%A完整星期名，%b月份名缩写，%B完整月份名，%c日期和时间表示，%C用00~99十进制表示的年份，%d十进制01~31表示的日，
+%D"%m/%d/%y"，%e十进制1~31表示的日，%F"%Y-%m-%d"，%h同%b，%H十进制00~23表示的小时，%I十进制00~11表示的小时，
+%j用十进制001~366表示的日，%m用十进制01~12表示的月，%M用十进制00~59表示的分，%pAM或PM，%r当地时间12小时制，%R"%H:%M"，
+%S十进制00~59表示的秒，%T"%H:%M:%S"，%u十进制1~7表示的星期几，%U十进制00~53表示的星期（周日开始），%w十进制0~6表示的星期几，
+%W十进制00~53表示的星期（周一开始），%x日期表示，%X时间表示，%y十进制00~99表示的年，%Y四位十进制表示的年，%z本地时区缩写，
+%Z时区名，%%百分号。
+double difftime(time_t later, time_t earlier);    //将earlier和later相减，并返回两个时间之间相差的秒数。
+clock_t clock(void);    //返回从程序开始执行起过去的时间，单位为ms。
+
+处理错误    
+
+assert.h
+void assert(int expression);    //expression为真，则不进行任何操作，否则在stderr上显示一条错误信息，并终止程序。
+
+errno.h       外部int变量errno
+符号常量用来表示其他错误
+E2BIG          1000          参数列表过长（超过128字节）
+EACCES         5             没有权限
+EBADF          6             文件描述符无效
+EDOM           1002          数学参数超出范围
+EEXIST         80            文件已经存在
+EMFILE         4             打开过多的文件
+ENOENT         2             没有这样的文件或目录
+ENOEXEC        1001          执行格式错误
+ENOMEM         8             内存不够
+ENOPATH        3             路径未找到
+ERANGE         1003          结果超出范围
+
+stdio.h
+void perror(const char *msg);  //msg指向消息，先打印这条消息，然后是冒号以及错误消息，若没有错误，则显示no error。
+
+查找和排序    stdlib.h
+void *bsearch(const void *key, const void *base, size_t num, size_t width, int (*cmp)(const void *element1, const void *element2));
+//采用二分法，查找与key匹配的元素，数组中的元素必须按升序排列，还必须提供比较函数提供判断。
+//key指向要查找的数据线；base指向数组的第一个元素；num指出数组包含的元素数；width是每个元素的长度，size_t等价于unsigned。
+//cmp指向比较函数，比较函数需满足：接受两个指针作为参数，返回int值（1<2，则小于0；1=2，则等于0；1>2，则大于0）。
+//返回一个指向第一个与键值匹配的数组元素的void指针，若没有找到匹配元素，则返回NULL。
+void qsort(void *base, size_t num, size_t size, int (*cmp)(const void *element1, const void *element2));
+//快速排序法。base指向数组的第一个元素，num是数组包含的元素数，size是数组元素的长度，cmp指向比较函数，没有返回值。
+
+END

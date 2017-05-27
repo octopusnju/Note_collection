@@ -1,0 +1,688 @@
+第1天课程 C语言初步
+
+C语言特点：功能强大灵活；流行；可移植；单词少；模块化
+流程：创建源代码，编译源代码，链接以创建可执行文件，结束开发周期
+
+END
+
+第2天课程 C语言程序的组成部分
+
+程序的组成部分：
+main()函数，#include编译指令，变量定义，函数原型，
+程序语句，printf()语句，scanf()语句，return语句，
+函数定义，程序注释，花括号
+
+END
+
+第3天课程 存储信息：变量和常量
+
+变量名：可以包含字母、数字和下划线，第一个字符不能是数字，区分大小写，不能使用关键字
+
+数值数据类型，关键字，字节数
+字符            char            1
+短整型          short           2
+整型            int             4
+长整型          long            4
+特长整型        long long       8
+无符号字符      unsigned char   1
+无符号短整型    unsigned short  2
+无符号整型      unsigned int    2
+无符号长整型    unsigned long   4
+无符号特长整型  unsigned long long 8
+单精度浮点数    float           4
+双精度浮点数    double          8
+
+变量声明： typename varname；
+typedef 用于给已有的数据类型指定一个新的名称
+
+字面常量，符号常量
+定义符号常量： #define  const
+
+END
+
+第4天课程 语句、表达式和运算符
+
+语句是一条完整的指令，命令计算机执行特定的任务。 
+C编译器忽略空白，字符串常量中例外。  要将字符串常量放在多行中，换行前加上\
+
+赋值运算符 = 
+单目数学运算符： 递增++  递减--    前缀模式，先递增/递减，后计算表达式值；后缀模式，先计算表达式值，后递增/递减。
+双目数学运算符： 加法+  减法-  乘法*  除法/  求余%
+数学运算符的优先级： 1. ++，--；  2. *，/，%；  3. +，-
+关系运算符： 等于==， 大于>， 小于<， 大于等于>=， 小于等于<=， 不等于!=
+关系运算符的优先级： 1. <, <=, >, >=； 2. !=, ==
+逻辑运算符： AND &&, OR ||, NOT !
+0 false; 1 true
+复合赋值运算符： +=, -=, *=, /=, %=
+条件运算符： exp1?exp2:exp3;
+逗号运算符： , 使用逗号将两个子表达式组合成一个表达式，两个表达式都被计算，先计算左边，表达式的结果为右边子表达式的值。
+
+if(expression)
+  statement1;
+else
+  statement2;
+  
+运算符的优先级：
+1. ()函数运算符；[]数组运算符；->结构体运算符；.结构体运算符
+2. !逻辑非；~按位取反；++自增；--自减；*指针间接运算符；&地址运算符；()强制类型转换；sizeof长度；+正号；-负号
+3. *乘法运算符；/除法运算符；%求余运算符
+4. +加法运算符；-减法运算符
+5. <<左移位；>>右移位
+6. <小于；<=小于或等于；>大于；>=大于或等于
+7. ==相等；!=不相等
+8. &按位与
+9. ^按位异或
+10. |按位或
+11. &&逻辑与
+12. ||逻辑或
+13. ?:条件运算符
+14. =赋值，+=，-=，*=，/=，%=复合赋值，&=，^=，!=，<<=，>>=按位复合赋值
+15. ,逗号运算符
+
+END
+
+第5天课程 使用函数封装代码
+
+函数是一个被命名的、独立的代码段，它执行特定的任务，并可能给调用它的程序返回一个值。
+仅当函数被程序的其他部分调用后，函数中的语句才会被执行。
+
+函数原型的格式：return-type function_name( arg-type name-1, ..., arg-type name-n);
+函数原型不必与函数头完全相同，只要参数的类型、数目和顺序相同即可。
+结构化编程的优点：更容易编写；更容易调试。
+
+递归：用于阶乘x!等类似运算
+内联函数：inline
+
+END
+
+第6天课程 基本的程序控制流程
+
+for(initial; condition; increment)
+  statement;
+1.执行表达式initial；
+2.判断condition；
+3.如果condition=0，for语句结束；
+4.如果condition不为0，执行statement语句；
+5.执行increment，返回到2。
+
+while(condition)
+  statement;
+1.计算表达式condition；
+2.如果condition为零，while语句结束；
+3.如果condition非零，执行statement语句；
+4.返回到第一步。
+
+for(;condition;) == while(statement)
+
+do
+  statement
+while(condition);
+1.执行statement中的语句；
+2.计算condition。如果为真，返回到第1步；否则循环结束。
+
+END
+
+第7天课程 信息读写基础
+
+printf();  格式化字符串组成：字面文本，转义序列(\x)，转换说明符(%x)。
+最常用的转义序列： \a振铃，\b退格, \f换页, \n换行，\r回车，\t水平制表符，\v垂直制表符，\\反斜杠，\?问号，\'单引号，\"双引号
+
+最常用的转换说明符 （转换说明符和变量必须成对出现）
+说明符      含义                 要转换的类型
+%c       单个字符                char
+%d       有符号的十进制整数      int, short
+%ld      有符号的十进制长整数    long
+%f       十进制浮点数            float, double
+%s       字符串                  char数组
+%u       无符号的十进制整数      unsigned int, unsigned short
+%lu      无符号的十进制长整数    unsigned long
+
+行末尾的\指出字符串将延续到下一行
+
+puts()  scanf()勿忘地址运算符&
+
+三字符序列
+??= (#), ??) ([), ??/ (\), ??) (]), ??' (^), ??< ({), ??> (}), ??- (~)
+
+END
+
+第8天课程 使用数值数组
+
+数组是一组数据存储位置，其中每个位置的名称相同，存储的数据类型也相同。数组元素从0开始编号。
+typename array[n];     C语言不会判断下标超界。
+可以使用字面常量来指定元素数目，但只能使用#define定义的符号常量，不能使用const定义的符号常量。
+初始化： ={,...} 可以少于元素个数，多了会错误。ANSI未显式初始化默认为0。
+多维数组初始化： ={{,,...},{,,...},..}
+
+通常，数值数据类型所需的存储空间：int(4), short(2), long(4), long long(8), float(4), double(8)
+arraysize = sizeof(array)/sizeof(typename);
+
+END
+
+第9天课程 指针
+
+指针是一个变量，它存储了另一个变量的地址。
+typename *ptrname;   
+指针在使用前必须先进行初始化，否则会带来严重后果。
+*ptr, var: var的内容； ptr, &var: var的地址。
+
+数组名：指针常量，不能进行递增递减。 data 和 &data[0] 等价。
+*(array + n) == array[n] 数组下标表示和指针表示
+
+指针++/-- 等价于 指针 +=/-= sizeof(datatype)
+指针可进行加减和比较，但不能进行乘除。
+指针运算：赋值，间接运算，求地址，递增，递减，求差，比较
+
+地址运算符& 间接运算符*
+
+END
+
+第10天课程 字符和字符串
+
+char 即可以存储数值也可以存储字符(0 - 255), 可以用 %d %c 选择输出类型。
+char str[n] 字符串可存储n-1个字符，结尾必须是空字符\0，其ASCII码为0。可逐个赋值，也可整个序列赋值。
+
+内存空间：编译时分配，动态分配。
+void *malloc(size_t size);           stdlib.h
+//找到并保留一个所需大小的内存块，返回第一个字节的地址，类型为void指针，使用时强制转换。若内存分配失败，则返回NULL(0)。
+使用结束后需要释放 free(cp);
+
+puts()  printf()  gets()  scanf()
+
+while(*(ptr = gets(input))!=NULL)  //检查输入是否为空
+scanf()读取截止到下一个空白字符（空格、制表符或换行符），用此种方法输入数据容易出错。。。
+
+END
+
+第11天课程 结构、共用体和typedef
+
+简单结构
+struct tag(类型名){
+  structure_members(type 变量名)；
+} instance(结构名);
+
+struct tag(类型名) instance(结构名)；
+
+结构名.成员名     //结构中成员的使用
+
+复杂结构(结构嵌套）
+struct tag{
+  struct tag1 instance1;
+  struct tag2 instance2;
+} instancce;
+
+结构名.成员结构名.成员名
+
+结构数组： struct tag instance[n];      
+
+初始化 struct tag {} instance = {};   //按顺序读入，无需全部初始化。
+
+char数组和char指针作为结构体成员的区别：数组限制的字符串的长度，也浪费了多余空间。
+
+指向结构的指针：struct tag *instance_pointer, instence;    指向：instance_pointer = &instance;
+(*instance_pointer).structure_member 的另一种写法 instance_pointer -> structure_member
+
+使用指针和结构数组： ptr++ 等价于 ptr += sizeof(obj);
+
+共用体
+同一时间内，只有一个成员可用。共用体的所有成员占用的是同一个内存区域，它们互相覆盖。结构体可同时存储多个值，共用体只能存储一个值。初始化时只能初始化第一个成员
+
+union tag(类型名){
+  union_members(type 变量名);
+} instance(共用体名);
+
+一般是结构体嵌套共用体，结构体中存在变量用来识别共用体中存储数据的类型。
+
+typedef给结构体或共用体类型创建别名
+
+typedef struct {} othername;
+
+struct tag {};
+typedef struct tag othername;    使用别名无需包含关键字struct。
+
+END
+
+第12天课程 变量作用域
+
+外部变量（全局变量）：
+在函数外面定义的变量，作用域为整个源代码文件（包括其他文件），若未显式初始化，会被初始化为0；
+仅当程序的所有或大部分函数都需要使用时，才声明为外部变量；
+通常，使用const定义的符号常量应是外部的。
+extern type name;  //当函数使用外部变量时，函数内部应用extern来声明（惯例）。
+局部变量：
+函数内部定义的变量，作用域为其所在的函数，不会被自动初始化，使用前必须明确赋值。
+
+动态变量：
+(auto) type name;   //每次调用函数时，重新创建变量，函数执行完毕后，变量实例被释放。
+静态变量：
+static type name；  //只在函数首次被调用时初始化一次，以后不会被初始化，保留前一次退出函数时的值。
+
+静态外部变量：作用域区别，只位于其所在文件中，被定义之后的函数课件。
+
+寄存器变量：
+register type name;  //局部动态变量存储到寄存器，加快操纵变量的速度。只是申请，不能命令。
+
+main() 函数中静态局部变量和动态局部变量之间没有任何差别。
+
+C语言中的5种存储类型：
+存储类型          关键字       生命周期      定义位置        作用域
+动态变量          无           临时          函数内          局部
+静态变量          static       临时          函数内          局部
+寄存器变量        register     临时          函数内          局部
+外部变量          无           永久          函数外          全局（所有文件）
+静态外部变量      static       永久          函数外          全局（一个文件）
+
+{}代码块    可以声明局部变量，但要位于开始位置。   不常用，主要用来隔离代码。
+
+名称相同的局部变量和全局变量是两个完全不同的变量。
+
+END
+
+第13天课程 高级程序流程控制
+
+break;      //用于循环或switch语句中，立刻终止当前的循环或switch语句。
+continue;   //用于循环中，结束当前的循环迭代，立刻进行下一次迭代，continue到循环体结尾之间的语句不执行。
+goto XXX;   XXX:(跳转目标标识)   //无条件转移，执行后立刻跳转。必须位于同一函数中，可以不是同一代码块。使用比较危险
+while(1){}    for(;;){}   do{}while(1)     //死循环
+//可以使用空循环来编写延时函数，通过循环次数来对于延迟的时间。
+
+delay() sleep() //time.h dos.h  NO ANSI
+
+switch(XXX){ case XXX: XXX; case XXX: XXX; ...; default: XXX; }    //default可以放在任何地方
+//比较成功之后会执行后面所有的代码，故需要添加break来截止。可不添加break为不同比较结果执行相同程序块。
+//if可进行真假比较，switch进行穷举比较（或在判断语句中添加真假比较）。
+
+exit(status);              //status为0代表正常终止，为1代表发生错误。   stdlib.h   返回值由操作系统检验
+#define EXIT_SUCCESS 0
+#define EXIT_FAILURE 1     //stdlib.h中定义
+
+system(command);           //在正在运行的程序中执行操作系统(系统依赖)命令。 command可以是字符和指向字符串的指针。   stdlib.h
+
+END
+
+第14天课程 操纵屏幕、打印机和键盘
+
+5个标准流：    //标准流对所有程序来说都是同一个
+stdin     标准输入      键盘
+stdout    标准输出      屏幕
+stderr    标准错误      屏幕
+stdprn    标准打印机    打印机(LPT1:)      MS下支持，非ANSI        // \f表示换页
+stdaux    标准辅助      串行端口(COM1:)    MS下支持，非ANSI
+
+C语言的流函数：
+包含头文件: stdio.h（必须）
+包含头文件:            stdargs.h                                                                stdlib.h  
+使用标准流: printf()   vprintf()   puts()   putchar()  scanf()   vscanf()   gets()   getchar()  perror();
+需指定流名: fprintf()  vfprintf()  fputs()  putc()     fscanf()  vfscanf()  fgets()  getc()
+需指定流名:                                 fputc()                                  fgetc()
+
+int getchar(void);       //读取stdin流中下一个字符，缓冲,回显。               stdio.h
+int getch(void);         //读取stdin流中下一个字符，不缓冲，不回显。          conio.h    NO ANSI
+int getche(void);        //读取stdin流中下一个字符，不缓冲，回显。            NO ANSI
+int ungetc(int ch, FILE *fp);         //将要恢复的字符ch归还到指定流fp中，成功返回ch，否则返回EOF。
+char *gets(char *str);   //读取stdin中的字符，直到换行或文件末尾，存储到str指定的位置。成功返回指向str的指针，否则返回空指针。
+char *fgets(char *str, int n, FILE *fp);    //在指定输入流读取n-1个字符，遇到换行（读取换行符）或文件末尾提前结束，加上空字符存储到str指定的位置。成功返回指向str的指针，否则返回空指针。
+
+getc(), fgetc()
+
+scanf("%d", &x);            //转换命令组成: %[flag][field_width][.[precision]][1]conversion_char
+//类型说明符：int: d, i, o, u, x; char: c, s, [...](只读取列出的字符), [^...](只读取未列出的字符); float: a, e, f, g; None: %;
+//精度限定符：hh, h, l, ll, L;
+//scanf()只处理格式化字符串指定的字符数目，多余的字符仍然留在stdin中，直到程序下一次读入，可能会导致问题。需要主动清除。
+void clear_kb(void)    //自定义用来清除stdin剩余内容的函数
+{
+  char junk[80];
+  gets(junk);
+}
+int fflush(FILE *stream);     //用来清除流（包括标准流）中的信息。           stdio.h
+
+int putchar(int c);        //将存储在c中的字符写入到stdout，成功返回该字符，否则返回EOF。      stdio.h
+int fputc(int c, FILE *fp);      //将一个字符(或字符对应的ASCII码数字)发送给指定的流。
+int puts(char *cp);        //显示cp指向字符串结尾空字符前(不包括空字符)的所有字符并自动换行。成功返回正值，否则返回EOF(-1)。
+
+putc()
+
+printf("XXX %d XXX", &x);           //转换命令组成: %[flag][field_width][.[precision]][1]conversion_char
+//转换字符: d, l, u, o, x, X, c, e, E, f, g, G, n, s, %
+//限定符: l, ll, ., n, 0n, *(下个参数int指定字段宽度), -(左对齐), +(对有符号数标上符号),  (正数前加空格), #(在其他进制前加0) (n代表数字)
+//转义序列: \a(振铃), \b(回退), \n(换行), \t(水平制表符), \v(垂直制表符), \\(反斜杠), \?(问号), \'(单引号), \"(双引号)
+
+重定向输出(命令行提示符中):  程序名 > 目标名 or redirect > 目标名 (可以是标准流，也可以是文件。>会覆盖原文件，>>会附加到文件末尾)
+重定向输入(命令行提示符中):  程序名 < 源名 or redirect < 源名 (可以同时重定向 redirect < 源名 > 目标名)
+
+fprintf()    //可以指定输出流，处理磁盘文件。
+stderr  //标准错误流，不能被重定向，发送错误消息到屏幕。
+
+END
+
+第15天课程 有关指针的高级主题
+
+指针 typename *ptr; 指向指针的指针 typename **ptr; (多重间接)
+多维数组： typename array[m][n]; 数组名array，包含m个元素，每个元素包含n个元素，元素类型都是typename。 
+array是一个指针，array[0]是一个指针，array[0][0]是数组的数据。 若array指向array[0]，则array+1指向array[1]。
+指针数组：typename *ptr[n]； 指向数组的指针：typename (*ptr)[n]。
+对指针进行递增运算时，增加的值为指针指向的类型的长度。
+
+strcmp(char *p1, char *p2);
+
+函数指针： type (*ptr_to_func)(parameter_list);  一个指向函数的指针。
+
+struct aaa{
+  parameters;
+  struct aaa *next;
+  struct aaa *previous;
+};   链表，删除时记得释放内存，可以进行双向链表。
+
+END
+
+第16天课程 使用磁盘文件
+
+文本模式文件中的行不同于字符串，不以空字符结尾，以回车符和换行符标记，与\n互相转换。
+
+stdio.h
+FILE *fopen(const char *filename, const char *mode); 
+//创建一个FILE结构的实例，并返回一个指向该实例的指针。失败则返回NULL。filename可以（应该）包含路径，双引号括起的字符串。
+mode：
+r 打开文件进行读取，若文件不存在则返回NULL；
+w 打开文件进行写入，若文件不存在则创建，若文件存在则删除它并创建新的空文件；
+a 打开文件追加内容，若文件不存在则创建，若文件存在则将新数据追加到文件末尾；
+r+ 打开文件进行读写，若文件不存在则创建，若文件存在则新数据写入到文件开头，覆盖原来的数据；
+w+ 打开文件进行读写，若文件不存在则创建，若文件存在则覆盖；
+a+ 打开文件进行读取和追加，若文件不存在则创建，存在则将新数据追加到文件末尾。
+二进制模式打开文件在模式参数后面加上b。
+
+写入文件方法：1. 格式化输出：只能用于文本和数字数据的文件；2. 字符输出：只用于文本数据；3. 直接输出：只适用于二进制文件。
+格式化文件输出
+int fprintf(FILE *fp, char *fmt, ...);  
+格式化文件输入
+int fscanf(FILE *fp, const char *fmt, ...);
+字符输入
+int getc(FILE *fp);  int fgetc(FILE *fp);  //返回读取的字符，错误则返回EOF。
+char *fgets(char *str, int n, FILE *fp);  //从fp中读取n-1个字符读入到str内存中，末尾加上空字符。成功返回str，失败返回NULL。
+字符输出
+int putc(int ch, FILE *fp);  int fputc(int ch, FILE *fp);  //输出ch，成功返回ch，失败返回EOF。
+char fputs(char *str, FILE *fp);  //将str指向的以空字符结尾的字符串写入fp指向的文件中（空字符除外），不会在末尾加上换行符。
+//成功则返回非负值，失败返回EOF。
+直接输入
+int fread(void *buf, int size, int count, FILE *fp);  //将二进制文件中的一个数据块读入到内存中。
+//buf指向内存区域，size指定要读取的每个数据项的长度，count指定读取的项数。返回成功读取的数据项数，否则返回值小于count。
+直接输出
+int fwrite(void *buf, int size, int count, FILE *fp);  //将内存中的一个数据块写入到二进制文件中。
+//buf指向内存区域，size指定每个数据项的长度，count指定写入的项数。返回成功写入的数据项数，否则返回值小于count。
+
+int fclose(FILE *fp);  //关闭文件，成功返回0，否则返回-1。关闭时刷新文件的缓冲区(写入到文件中)。
+int fcloseall(void);  //关闭除标准流之外的所有打开的流，刷新所有的流缓冲区，返回关闭的流数。
+
+int fflush(FILE *fp);  //在不关闭流的情况下，刷新流的缓冲区，将文件缓冲区中的数据写入磁盘。
+int flushall(void);  //刷新所有打开的流的缓冲区。
+
+void rewind(FILE *fp);  //让文件的位置指示器指向文件开头。用于读取了文件中一些数据，并想从文件开头再次读取，又不想重新打开。
+long ftell(FILE *fp);  //返回当前位置离文件开头的字节数，错误返回-1L。
+int fseek(FILE *fp, long offset, int origin);  //将位置指示器指向文件的任何位置。移动距离由offset指定，origin指定相对位置。
+//io.h origin可取值：SEEK_SET 0 文件开头；SEEK_CUR 1 当前位置；SEEK_END 2 文件末尾。成功返回0，失败返回非零值。
+int feof(FILE *fp);  //如果到达文件的末尾，则返回0，否则返回非零值。 文本文件还可用while((c=fgetc(fp))!= EOF)判断。
+
+int remove(const char *filename);  //删除指定文件，文件不能处于打开状态。成功返回0，否则返回-1。
+int rename(const char *oldname, const char *newname);  //修改已有磁盘文件的名称（路径），文件必须处于相同磁盘驱动器中。
+//成功则返回0，错误则返回-1.
+char *tmpnam(char *s);  //s指向一个存储文件名的缓冲区，也可以是NULL，临时名存储在tmpnam的缓冲区中，返回指向该缓冲区的指针。
+
+END
+
+第17天课程 操纵字符串
+
+string.h
+
+size_t strlen(char *str);  //size_t是unsigned类型，返回一个无符号整数。
+//接受一个指向字符串的指针参数，返回str位置和下一个空字符（不包含）之间的字符数。
+
+char *strcpy(char *destination, const char *source);
+//将source指向的字符串（包括末尾空字符）复制到destination指向的位置，返回值为一个指向新字符串的指针。
+
+char *strncpy(char *destination, const char *source, size_t n);
+//将source中的前n个字符复制到destination中，少于n个则补足空字符，多余则不补空字符。
+
+char *strdup(char *source);
+//NO ANSI：使用malloc()分配空间，然后调用strcpy()。返回指向目标字符串的指针，失败则返回NULL。
+
+char *strcat(char *str1, char *str2);
+//将str2加到str1的后面，并将空字符移到新字符串的末尾。
+
+char *strncat(char *str1, const char *str2, size_t n);
+//用于拼接字符串，指定拼接str2的多少个字符。
+
+int strcmp(const char *str1, const char *str2);  //比较两个完整字符串，返回值：1<2，-1；1=2，0；1>2，1。
+int strncmp(const char *str1, const char *str2, size_t n);  //比较字符串的前n个字符。
+//比较字符串时大写字母永远小于小写字母，区分大小写。
+
+char *strchr(const char *str, int ch);  
+//从左到右，查找字符ch在字符串str中第一次出现的位置，找到则返回指向字符的指针，失败则返回NULL。
+
+char *strrchr(const char *str, int ch);  
+//查找指定的字符ch在字符串str中最后一次出现的位置。成功返回指向此位置指针，失败返回NULL。
+
+size_t strcspn(const char *str1, const char *str2);  //从str1的第一个字符开始搜索，查找出现在str2中的字符而非str2字符串。
+//找到则返回该字符离str1开头的距离，找不到则返回strlen(str1)。表面第一个匹配的字符是末尾的空字符。
+
+size_t strspn(const char *str1, const char *str2);  
+//将str1中每个字符同str2的字符进行比较，返回第一个不被包含的位置离开头的距离。
+
+char *strpbrk(const char *str1, const char *str2);  //类似于strcspn()，但查找时不考虑结尾的空字符。
+//返回指向查找到的字符的指针，没找到则返回NULL。
+
+char *strstr(const char *str1, const char *str2);   //查找一个字符串在另一个字符串中首次出现的位置，查找str2字符串而非字符。
+//返回一个指向str2在str1中第一次出现位置的指针，没找到则返回NULL。
+
+char *strlwr(char *str);  //NO ANSI，将str中所有的大写字母转换为小写。返回str，不创建新字符串。
+char *strupr(char *str);  //NO ANSI，将str中所有的小写字母转换为大写。返回str，不创建新字符串。
+
+char *strrev(char *str);  //NO ANSI，将字符串中所有字符的排列顺序反转，末尾空字符不变，返回str。
+char *strset(char *str, int ch);   //NO ANSI，将字符串str中的所有字符（除空字符）修改为指定的字符ch，返回str。
+char *strnset(char *str, int ch, size_t n);    //NO ANSI, 将字符串str中的n个字符（除空字符）修改为指定的字符ch，返回str。
+
+字符串转换为数字  stdlib.h
+int atoi(const char *ptr);  //将ptr指向的字符串转换为一个int值，开头可包含空白或正负号，转换从开头进行，直到遇到不可转字符。
+long atol(const char *ptr);  //返回long型。
+long long atoll(const char *ptr);  //返回long long型。
+double atof(const char *str);  //返回double型。
+
+字符检测函数  ctype.h
+int isXXX(int ch);  //如果ch是XXX，则返回TRUE(1)，否则返回FALSE(0)。
+isalnum();  //字母或数字
+isalpha();  //字母
+isblank();  //空
+iscntrl();  //控制字符
+isdigit();  //数字
+isgraph();  //打印字符（空白除外）
+islower();  //小写字母
+isprint();  //打印字符（包括空白）
+ispunct();  //标点
+isspace();  //空白字符（空格、水平制表符、垂直制表符、换行符、换页符、回车）
+isupper();  //大写字母
+isxdigit();  //十六进制的数字
+
+int toupper(int ch);  int tolower(int ch);
+
+END
+
+第18天课程 有关函数的高级主题
+
+指针作为参数传递给函数，按引用传递，可以修改变量值。
+
+void类型的指针，void *ptr，一个可以指向任何类型的数据对象的指针。使用时要进行强制类型转换。
+
+接受可变数目参数的函数        stdarg.h
+声明接受可变数目参数的函数时，首先列出固定的参数（至少一个），然后在参数列表最后加上一个省略号（...）。用一个参数指出传递了多少参数。
+va_list：一种指针数据类型；
+va_start()：一个用于初始化参数列表的宏；
+va_art()：一个用于依次取回可变列表中每个参数的宏；
+va_end()：一个用于在取回完所有的参数后进行清理工作的宏；
+使用步骤：
+1. 声明一个va_list类型的指针变量arg_ptr，用于存取各个参数。
+2. 调用va_start()宏，并将指针arg_ptr和最后一个固定参数的名称传递给他。无返回值，初始化arg_ptr指针，使之指向可变列表第一个参数。
+3. 调用va_arg()，并将指针arg_ptr和下一个参数的类型传递给它。返回下一个参数的值。
+4. 取回所有参数后，调用va_end()，并将指针arg_ptr传递给它。
+
+返回指针的函数 type *func(parameter_list);
+函数指针 type (*func)(parameter_list);
+
+END
+
+第19天课程 函数库
+
+数学函数    math.h
+三角函数（弧度）
+acos()        double acos(double x)                返回参数的反余弦。
+asin()        double asin(double x)                返回参数的反正弦。
+atan()        double atan(double x)                返回参数的反正切。
+atan2()       double atan2(double x, double y)     返回x/y的反正切。
+cos()         double cos(double x)                 返回参数的余弦。
+sin()         double sin(double x)                 返回参数的正弦。
+tan()         double tan(double x)                 返回参数的正切。
+指数函数和对数函数
+exp()         double exp(double x)                 返回e^x。
+log()         double log(double x)                 返回自然对数，参数必须大于0。
+log10()       double log10(double x)               返回以10为底的对数，参数必须大于0。
+frexp()       double frexp(double x, int *y)       返回一个范围为[0.5,1]的归一化小数，并将一个整数赋给y，使的x=r*2^y。
+ldexp()       double ldexp(double x, int y)        返回x*2^y。
+双曲函数
+cosh()        double cosh(double x)                返回双曲余弦。
+sinh()        double sinh(double x)                返回双曲正弦。
+tanh()        double tanh(double x)                返回双曲正切。
+其他数学函数
+sqrt()        double sqrt(double x)                返回平方根，参数必须大于等于0。
+ceil()        double ceil(double x)                返回不小于参数的最小整数。
+abs()         int abs(int x)                       返回绝对值。
+floor()       double floor(double x)               返回不大于参数的最大整数。
+modf()        double modf(double x, double *y)     
+将参数分为整数部分和小数部分，每部分的符号与参数相同，函数将小数部分返回，并将整数部分赋给*y。
+pow()         double pow(double x, double y)       返回x^y。
+fmod()        double fmod(double x, double y)      返回x/y的余数，符号与x相同。
+
+处理时间    time.h
+time_t, clock_t 对应于 long
+struct tm{
+  int tm_sec;        //seconds after the minute - [0, 59]
+  int tm_min;        //minutes after the hour - [0, 59]
+  int tm_hour;       //hours since midnight - [0, 23]
+  int tm_mday;       //day of the month - [1, 31]
+  int tm_mon;        //months since January - [0, 11]
+  int tm_year;       //years since 1900
+  int tm_wday;       //days since Sunday - [0, 6]
+  int tm_yday;       //days since January 1 - [0, 365]
+  int tm_isdst;      //daylight savings time flag
+};
+时间函数
+time_t time(time_t *timeptr);         //返回从1970.1.1午夜开始过去的秒数，并将值存储在ptr指向的变量中。
+struct tm *localtime(time_t *ptr);    //返回一个指向静态结构tm的指针，无需声明一个tm结构，只需声明一个tm指针，重复调用会覆盖。
+time_t mktime(struct tm *ntime);      //将tm结构转换为一个time_t值。从1970.1.1到ntime时间过去的秒数。
+char *asctime(struct tm *ptr);        //返回一个以特定格式表示时间的字符串。
+char *ctime(time_t *ptr);             //返回一个以特定格式表示时间的字符串。
+size_t strftime(char *s, size_t max, char *fmt, struct tm *ptr);  //接受一个tm结构作为参数，按格式化字符串对时间进行格式化。
+//按照格式化字符串fmt指定的格式，对ptr指向的tm结构表示的时间，将结果作为空字符结尾字符串写入s指向的内存，max表示s指向内存的大小。
+//如果结果字符串字符数超过max个，则函数返回0，s指向的字符串无效。否则返回写入的字符数strlen(s)。
+说明符：
+%a星期名缩写，%A完整星期名，%b月份名缩写，%B完整月份名，%c日期和时间表示，%C用00~99十进制表示的年份，%d十进制01~31表示的日，
+%D"%m/%d/%y"，%e十进制1~31表示的日，%F"%Y-%m-%d"，%h同%b，%H十进制00~23表示的小时，%I十进制00~11表示的小时，
+%j用十进制001~366表示的日，%m用十进制01~12表示的月，%M用十进制00~59表示的分，%pAM或PM，%r当地时间12小时制，%R"%H:%M"，
+%S十进制00~59表示的秒，%T"%H:%M:%S"，%u十进制1~7表示的星期几，%U十进制00~53表示的星期（周日开始），%w十进制0~6表示的星期几，
+%W十进制00~53表示的星期（周一开始），%x日期表示，%X时间表示，%y十进制00~99表示的年，%Y四位十进制表示的年，%z本地时区缩写，
+%Z时区名，%%百分号。
+double difftime(time_t later, time_t earlier);    //将earlier和later相减，并返回两个时间之间相差的秒数。
+clock_t clock(void);    //返回从程序开始执行起过去的时间，单位为ms。
+
+处理错误    
+
+assert.h
+void assert(int expression);    //expression为真，则不进行任何操作，否则在stderr上显示一条错误信息，并终止程序。
+
+errno.h       外部int变量errno
+符号常量用来表示其他错误
+E2BIG          1000          参数列表过长（超过128字节）
+EACCES         5             没有权限
+EBADF          6             文件描述符无效
+EDOM           1002          数学参数超出范围
+EEXIST         80            文件已经存在
+EMFILE         4             打开过多的文件
+ENOENT         2             没有这样的文件或目录
+ENOEXEC        1001          执行格式错误
+ENOMEM         8             内存不够
+ENOPATH        3             路径未找到
+ERANGE         1003          结果超出范围
+
+stdio.h
+void perror(const char *msg);  //msg指向消息，先打印这条消息，然后是冒号以及错误消息，若没有错误，则显示no error。
+
+查找和排序    stdlib.h
+void *bsearch(const void *key, const void *base, size_t num, size_t width, int (*cmp)(const void *element1, const void *element2));
+//采用二分法，查找与key匹配的元素，数组中的元素必须按升序排列，还必须提供比较函数提供判断。
+//key指向要查找的数据线；base指向数组的第一个元素；num指出数组包含的元素数；width是每个元素的长度，size_t等价于unsigned。
+//cmp指向比较函数，比较函数需满足：接受两个指针作为参数，返回int值（1<2，则小于0；1=2，则等于0；1>2，则大于0）。
+//返回一个指向第一个与键值匹配的数组元素的void指针，若没有找到匹配元素，则返回NULL。
+void qsort(void *base, size_t num, size_t size, int (*cmp)(const void *element1, const void *element2));
+//快速排序法。base指向数组的第一个元素，num是数组包含的元素数，size是数组元素的长度，cmp指向比较函数，没有返回值。
+
+END
+
+第20天课程 管理内存
+
+类型转换
+自动类型转换：类型提升(char, short, int, long, long long, float, double, long double)，赋值时转换
+显式转换：(typename)
+
+分配内存的存储空间   size_t是unsigned的别名
+void *malloc(size_t num); //分配num个字节的空间，并返回指向第一个字节的指针，否则返回NULL。
+void *calloc(size_t num, size_t size); //num是要分配的对象数，size是每个对象的大小。
+如果分配成功，则将所有内存内容设为0，返回指向第一个字节的指针；否则返回NULL指针。
+void *realloc(void *ptr, size_t size); //用于改变使用malloc()或calloc()分配的内存块的大小，ptr指向原理内存块，新大小有size决定。
+如果有足够的空间用于扩大ptr指向的内存块，则分配额外的内存，并返回ptr；
+如果没有足够的空间用于扩大内存块，则分配一个size字节的新内存块，将原来内存块中的数据复制到新内存块的开头，释放原来的内存块，返回指向新内存块的指针；
+如果ptr为NULL，则类似于malloc()，分配一个size字节的内存块，并返回一个指向该内存块的指针；
+如果size为0，则释放ptr指向的内存，并返回NULL；
+如果没有足够的可用内存来完成重新分配，则返回NULL，而原来的内存块保持不变。
+void free(void *ptr);  //释放ptr指向的内存。
+
+操纵内存块
+void *memset(void *dest, int c, size_t count);  //将内存块中的字节设置为特定的值。
+//dest指向要初始化的内存块，c是要设置的值，count指定从dest开始设置多少字节。
+void *memcpy(void *dest, void *src, size_t count);   //在内存块之间复制数据。
+//dest和src分别指向目标内存块和源内存块，count指定要赋值多少个字节，返回值为dest。
+void *memmove(void *dest, void *src, size_t count);   //将一个内存块中指定数目的字节复制到另一个内存块中。
+//它能够处理相互重叠的内存块
+
+位的用法
+移位运算符：<<左移位，>>右移位。 x<<n; x>>n;
+按位逻辑运算符：&与，|或，^异或。
+求补运算符：~
+结构中的位字段：struct xxx{ typename xxx: n; };  //可以声明一个任何数目位的位字段。
+
+END
+
+第21天课程 编译器的高级用法
+
+模块化编程：主模块，辅助模块
+XXX list.c calc.c     XXX是用于执行编译器的命令。
+1.编译list.c，创建list.obj。2.编译calc.c，创建calc.obj。3.链接list.obj、calc.obj和所需的库函数，生成可执行文件list.exe。
+头文件包含：辅助模块中的函数的原型；定义模块使用的宏和符号常量的#define编译指令；模块使用的结构和外部变量的定义。
+外部变量：extern告诉编译器变量的首次声明位于其他地方，但在本模块中可见。所有的extern变量都是静态的。
+
+预处理： #define text1, text2    //用一种文本text1替换另一种文本text2
+#define创建函数宏  #define func(x) func的表达式  
+#字符串化运算符：参数被转换为用引号括起来的字符串；##拼接运算符：将两个字符串拼接起来，但不会加引号，也不对转义字符做处理。
+编译指令#include <>现在标准目录查找，再在当前目录查找。""只在当前目录查找。
+#if condition_1
+  statement_block_1
+#elif condition 2
+  statement_block_2
+  ...
+#else
+  default_statement_block
+#endif
+避免头文件被多次包含  #undef撤销对名称的定义。
+
+预定义的宏：__DATE__, __TIME__, __LINE__, __FILE__
+使用命令行参数：main(int argc, char *argv[])
+
+编译器将第一个文件用于决定。头文件的扩展名不必须是.h。包含头文件可以指定路径。
+
+END

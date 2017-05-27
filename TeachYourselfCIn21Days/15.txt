@@ -1,0 +1,19 @@
+第15天课程 有关指针的高级主题
+
+指针 typename *ptr; 指向指针的指针 typename **ptr; (多重间接)
+多维数组： typename array[m][n]; 数组名array，包含m个元素，每个元素包含n个元素，元素类型都是typename。 
+array是一个指针，array[0]是一个指针，array[0][0]是数组的数据。 若array指向array[0]，则array+1指向array[1]。
+指针数组：typename *ptr[n]； 指向数组的指针：typename (*ptr)[n]。
+对指针进行递增运算时，增加的值为指针指向的类型的长度。
+
+strcmp(char *p1, char *p2);
+
+函数指针： type (*ptr_to_func)(parameter_list);  一个指向函数的指针。
+
+struct aaa{
+  parameters;
+  struct aaa *next;
+  struct aaa *previous;
+};   链表，删除时记得释放内存，可以进行双向链表。
+
+END

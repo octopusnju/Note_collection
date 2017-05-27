@@ -1,0 +1,25 @@
+第3天课程 存储信息：变量和常量
+
+变量名：可以包含字母、数字和下划线，第一个字符不能是数字，区分大小写，不能使用关键字
+
+数值数据类型，关键字，字节数
+字符            char            1
+短整型          short           2
+整型            int             4
+长整型          long            4
+特长整型        long long       8
+无符号字符      unsigned char   1
+无符号短整型    unsigned short  2
+无符号整型      unsigned int    2
+无符号长整型    unsigned long   4
+无符号特长整型  unsigned long long 8
+单精度浮点数    float           4
+双精度浮点数    double          8
+
+变量声明： typename varname；
+typedef 用于给已有的数据类型指定一个新的名称
+
+字面常量，符号常量
+定义符号常量： #define  const
+
+END
