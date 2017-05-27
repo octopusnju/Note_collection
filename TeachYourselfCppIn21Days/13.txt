@@ -1,0 +1,215 @@
+第13章 运算符类型与运算符重载
+
+关键字operator: 声明方式 return_type operator operator_symbol (...parameter list...);
+使用重载运算符旨在让类在他人看来更直观、更容易理解。不要为简化类的实现而使用运算符。
+C++运算符分两大类：单目运算符、双目运算符。
+
+单目运算符：
+作为全局函数或静态成员函数的定义   return_type operator operator_type (parameter_type) { //...implementation }
+作为类成员的定义   return_type operator operator_type() { //...implementation }
+
+可重载的单目运算符列表：++递增；--递减；*解除引用；->成员选择；!逻辑非；&取址；~求反；+正；-负；转换运算符。
+
+前缀递增的定义：return_type & operator ++() { addfunc(1); return *this//...implementation }
+后缀递增的定义：return_type operator ++(int)
+{ return_type newObject(constructor parameters); addfunc(1); return newObject//...implementation }
+类的构造函数默认可以接受一个同样的类的成员作为参数来实现对象的复制。
+
+智能指针：封装常规指针的类，通过管理所有权和复制问题简化内存管理，能够提高程序的性能。
+#include <memory>  #include <iostream>    
+智能指针类auto_ptr位于标准类库的std命名空间的<memory>中，实现了运算符*和->，且在结束后会自动进行delete
+定义方式：auto_ptr <type> pointerName (new type);   创建一个新的实例，并将智能指针指向此实例。
+与普通指针相比，智能指针除能在指针离开作用域后释放其占用的内存外，还有很多功能，详见26章。
+
+转换运算符：operator conversion_type() { //implementation;  return conversion_typeValue; }
+在类中进行定义，可以将对象转换为任何想要成为的形式进行输出。 对象查看要复制的变量的类型，搜索类函数中对应的转换运算符进行转换。
+
+双目运算符：
+以全局函数或静态成员函数方式实现的定义：return_type operator_type (parameter1, parameter2);
+以类成员的方式实现的定义：return_type operator_type (parameter);
+以类成员的方式实现的双目运算符只接受一个参数，第二个参数通常是从类的属性获得的。
+
+可重载的双目运算符：
+,逗号；!=不等于；%求模；%=求模并赋值；&按位与；&&逻辑与；&=按位与并赋值；*乘；*=乘并赋值；+加；+=加并赋值；-减；-=减并赋值；
+->*指向成员的指针；/除；/=除并赋值；<小于；<<左移；<<=左移并赋值；<=小于或等于；=赋值；==等于；>大于；>=大于或等于；
+>>右移；>>=右移并赋值；^异或；^=异或并赋值；|按位与；|=按位与并赋值；||逻辑与；[]下标运算符。
+
+无论是单目运算符还是双目运算符重载后，只能通过函数返回值方式进行使用，而不能直接用等号，除非同时定义的等号的重载。
+
+//运算符重载的一个例子，可以作为参考，基本全覆盖。
+#include <iostream>
+using namespace std;
+class CDate
+{
+	private:
+		int m_nDay;			//Range: 1-30 (lets assume all months have 30 days!
+		int m_nMonth;		//Range: 1-12
+		int m_nYear;
+		void AddDays(int nDaysToAdd)
+		{
+			m_nDay += nDaysToAdd;
+			if(m_nDay > 30)
+			{
+				AddMonths(m_nDay/30);
+				m_nDay %= 30;		//rollover 30th -> 1st
+			}
+		}
+		void SubDays(int nDaysToSub)
+		{
+			m_nDay -= nDaysToSub;
+			if(m_nDay < 1)
+			{
+				SubMonths((30-m_nDay)/30);
+				m_nDay *= (-1);
+				m_nDay %= 30;
+				m_nDay = 30 - m_nDay;		//rollover 1st -> 30th
+				if(m_nDay == 0)
+					m_nDay = 30;
+			}
+		}
+		void AddMonths(int nMonthsToAdd)
+		{
+			m_nMonth += nMonthsToAdd;
+			if(m_nMonth > 12)
+			{
+				AddYears(m_nMonth/12);
+				m_nMonth %= 12;		//rollover Dec -> Jan
+			}
+		}
+		void SubMonths(int nMonthsToSub)
+		{
+			m_nMonth -= nMonthsToSub;
+			if(m_nMonth < 1)
+			{
+				SubYears((12-m_nMonth)/12);
+				m_nMonth *= (-1);
+				m_nMonth %= 12;
+				m_nMonth = 12 - m_nMonth;		//rollover Jan -> Dec
+				if(m_nMonth == 0)
+					m_nMonth = 12;
+			}
+		}
+		void AddYears(int m_nYearsToAdd)
+		{
+			m_nYear += m_nYearsToAdd;
+		}
+		void SubYears(int m_nYearsToSub)
+		{
+			m_nYear -= m_nYearsToSub;
+		}		
+	public:
+		//Constructor that initializes the object to a day, month and year
+		CDate(int nDay, int nMonth, int nYear) : m_nDay(nDay), m_nMonth(nMonth), m_nYear(nYear) {}
+		//Unary increment operator (prefix)
+		CDate & operator ++ ()			//前缀递增，按引用传递 
+		{
+			AddDays(1);
+			return *this;
+		}
+		//Unary discrement operator (prefix)
+		CDate & operator -- ()			//前缀递减，按引用传递 
+		{
+			SubDays(1);
+			return *this;
+		}
+		//postfix operator: differs from prefix in return type and parameters
+		CDate operator ++ (int)			//后缀递增，按值传递
+		{
+			//Create a copy of the current object, before incrementing day
+			CDate mReturnDate(m_nDay, m_nMonth, m_nYear);
+			AddDays(1);
+			//Return the state before increment was perfromed
+			return mReturnDate;
+		}
+		//postfix operator: differs from prefix in return type and parameters
+		CDate operator -- (int)			//后缀递减，按值传递
+		{
+			//Create a copy of the current object, before incrementing day
+			CDate mReturnDate(m_nDay, m_nMonth, m_nYear);
+			SubDays(1);
+			//Return the state before discrement was perfromed
+			return mReturnDate;
+		}		
+		//int operator
+		operator int() const
+		{
+			return ((m_nYear * 10000) + (m_nMonth * 100) + m_nDay);
+		}
+		// + operator
+		CDate operator + (int nDaysToAdd) 
+		{
+			CDate newDate(m_nDay, m_nMonth, m_nYear);
+			newDate.AddDays(nDaysToAdd);
+			return newDate;
+		}
+		// - operator
+		CDate operator - (int nDaysToSub) 
+		{
+			CDate newDate(m_nDay, m_nMonth, m_nYear);
+			newDate.SubDays(nDaysToSub);
+			return newDate;
+		}
+		// += operator     无返回值？ 也可能由于存在等号的原因有返回值会导致逻辑错误？ 
+		/*CDate*/void operator += (int nDaysToAdd)
+		{
+			AddDays(nDaysToAdd);
+		//	return *this; 
+		}
+		// -= operator     无返回值？ 也可能由于存在等号的原因有返回值会导致逻辑错误？ 
+		/*CDate*/void operator -= (int nDaysToSub)
+		{
+			SubDays(nDaysToSub);
+		//	return *this; 
+		}		
+		// == operator
+		bool operator == (const CDate & mDateObj) const
+		{
+			return ((mDateObj.m_nYear == m_nYear) && (mDateObj.m_nMonth == m_nMonth) && (mDateObj.m_nDay == m_nDay));
+		}
+		// != operator
+		bool operator != (const CDate & mDateObj) const
+		{
+			return !(this->operator == (mDateObj) );
+		}
+		// < operator
+		bool operator < (const CDate & mDateObj) const
+		{
+			return (this->operator int() < mDateObj.operator int());
+		}
+		// > operator
+		bool operator > (const CDate & mDateObj) const
+		{
+			return (this->operator int() > mDateObj.operator int());
+		}
+		// <= operator
+		bool operator <= (const CDate & mDateObj) const
+		{
+			return (this->operator int() <= mDateObj.operator int());
+		}
+		// >= operator
+		bool operator >= (const CDate & mDateObj) const
+		{
+			return (this->operator int() >= mDateObj.operator int());
+		}
+		// Display
+		void DisplayDate() const
+		{
+			cout << m_nDay << "/" << m_nMonth << "/" << m_nYear << endl;
+		}
+};
+
+在定义const类或者将const类进行参数传递的时候，只能调用类声明里面的const函数。
+
+下标运算符典型语法：return_type & operator [] (subscript_type & subscript) { //return the return_type at positon subscript }
+可以通过下标运算符（subscript operator) []来实现动态数组类的创建和使用。
+可以实现两个下标运算符，一个标记为const，自动识别为读取操作，一个未标记，自动识别为写入操作。
+两个下标函数可以实现不同的功能。
+
+operator () 【括号运算符】函数让对象像函数，应用于STL（标准模板库）中，用于STL算法中。
+return_type operator () (parameter) {//statements}
+用途包括决策，根据使用的操作数数量，函数对象通常称为单目或双目谓词。
+
+不能重载或者重新定义的运算符：.成员选择；.*指针成员选择；::作用域解析；?:条件三目；sizeof获取对象类型大小
+不要实现不必要的运算符，否则纯粹浪费时间，带来混乱。
+定义不需要改变对象属性的成员运算符时，务必使用const
+类中实现运算符可能增加程序员的工作量，但会使用户使用时更加容易。

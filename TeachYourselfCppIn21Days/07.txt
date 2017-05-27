@@ -1,0 +1,15 @@
+第7章 控制程序流程
+
+循环
+鼻祖：goto   标签:    goto 标签  不加选择地使用会导致混乱、质量低下和无法阅读。
+while循环： while(condition)  statement;   可使用复合条件和复合语句。
+continue：在执行循环体所有语句前跳到下一次循环的开头。
+break：在满足循环退出条件之前主动跳出循环。    同样要谨慎使用。
+while(true)死循环，需要break等进行强制退出。
+do while循环 循环体至少被执行一次。 do statement while(condition);
+for循环：for(initialization; test; action) {}
+高级for循环：对多个变量进行初始化和递增；使用空语句；空for循环；嵌套for循环。
+for循环声明的变量作用域为for循环本身的语句块。
+斐波那契数列除了使用递归进行逆推，也可以使用for循环正面运算。
+switch语句： switch(expression) { case X: statement1; break; ... default: statementn; }  方便用于处理菜单。
+如果有两个以上else语句，切所有子句都测试相同的变量，应考虑使用switch语句。

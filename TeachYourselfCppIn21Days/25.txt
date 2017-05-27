@@ -1,0 +1,46 @@
+第25章 使用STL位标志
+
+位是存储设置与标志的高效方法。
+
+std::bitset是一个STL类，用于处理以位和位标志表示的信息。   需要包含头文件 #include <bitset>
+std::bitset不是STL容器类，不能调整长度，也不具备容器的其他特征。（不能通过迭代器访问）
+这是一个实用类，针对处理长度在编译阶段已知的位序列进行了优化。
+有3种创建bitset对象的方法：
+1.通过默认构造函数将位序列初始化为0；     bitset <4> fourBits;
+2.通过STL string以字符串形式指定位序列；      bitset <5> fiveBits (string("10101"));
+3.通过unsigned long指定二进制序列对应的十进制值;     bitset <8> eightBits (255);
+每个实例中，都需要通过一个模板参数指定位序列包含的位数。位数在编译阶段指定，而不是动态的，不能调整长度。
+bitset类提供了很多成员函数，可用于在bitset中插入位、设置或重置内容、读取内容或将内容写入到流中。
+还提供了一些运算符，用于显示位序列以及执行按位逻辑运算。
+std::bitset的运算符
+运算符 <<     将位序列的文本表示插入到输出流中   cout << fourBits;
+运算符 >>     将一个字符串插入到bitset对象中   "0101" >> fourBits;
+运算符 &      执行按位与操作   bitset <4> result(fourBits1 & fourBits2);
+运算符 |      执行按位或操作   bitset <4> result(fourBits1 | fourBits2);
+运算符 ^      执行按位异或操作   bitset <4> result(fourBits1 ^ fourBits2);
+运算符 ~      执行按位取反操作   bitset <4> result(~fourbits1);
+运算符 >>=    执行按位右移操作   fourBits >>= (2);
+运算符 <<=    执行按位左移操作   fourBits <<= (2);
+运算符 [N]    执行指向位序列中第N+1位的引用   fourBits[2]=0;   bool bNum = fourBits[2];
+std::bitset还提供了|=, &=, ^=, ~=等运算符。
+
+位可以存储两种状态：要么是已设置(1)，要么是重置(0)。
+std::bitset的成员函数
+set              将序列中所有的位都设置为1     fourBits.set();
+set(N,val=1)     将第N+1位设置为val指定的值（默认为1）   fourBits.set(2, 0);
+reset            将序列中的所有位都重置为0    fourBits.reset();
+reset(N)         将偏移位置为N+1的位清除     fourBits.reset(2);
+flip             将位序列中的所有位取反     fourBits.flip();
+size             返回序列中的位数     size_t nNumBits = fourBits.size();
+count            返回序列中值为1的位数     size_t nNumBitsSet = fourBits.count();   size_t nNumBitsReset = fourBits.size() - fourBits.count();
+这个STL类有一个缺点，不能动态地调整长度，vector<bool>类克服了这个缺点。
+
+vector <bool>是对std::vector的部分具体化，用于存储bool数据，可以动态调整长度，无需在编译阶段知道要存储的bool标志数。
+需要包含头文件 #include <vector>
+实例化方法：
+vector <bool> vecBool;   //使用默认构造函数，值全部为false(0)；
+vector <bool> vecBool(10, true);   //创建一个包含10个bool标志的对象，每个标志的值都为true(1)。
+vector <bool> vecBoolCopy(vecBool);   //通过复制方法来创建对象。
+
+vector <bool> 提供了函数 flip()，用于将序列中的bool值取反。其余的方法与std::vector极其相似，可以使用std::vector的所有函数。
+

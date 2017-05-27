@@ -1,0 +1,37 @@
+第22章 理解函数对象
+
+概念：函数对象是用作函数的对象；
+实现：函数对象是实现了operator()的类的对象。
+虽然函数和函数指针也可归为函数对象，但实现了operator()的类的对象才能保存状态（类的成员属性的值），才能用于STL算法。
+
+C++常用于STL算法的函数对象可分为下列两种类型：
+一元函数：接受一个参数的函数。如果一元函数返回一个bool值，则该函数称为谓词。
+二元函数：接受两个参数的函数。如果二元函数返回一个bool值，则该函数称为二元谓词。
+返回bool类型的函数对象通常用于需要进行判断的算法，组合两个函数对象的函数对象称为自适应函数对象。
+
+一元函数：只对一个参数进行操作的函数。
+template <typename T>
+void Func(const T & x) { cout << x << "  "; }     //第一种表示方法
+struct STR{                                      //第二种表示方法，必须为public，两种方法等价。
+  void operator() (const T & x) const {cout << x << "  "; }
+};
+STL算法std::for_each()。
+for_each接受3个参数：第一个参数指定范围的起点，第二个参数指定范围的终点，第三个参数是要对指定范围内每个元素调用的函数。
+使用函数对象还能够利用结构的对象来存储信息，因为结构除operator()之外可以具有成员属性。比如附加一个统计使用次数的成员：
+template <typename T>
+struct STR{                                      
+  STR() { Count = 0; }
+  void operator() (const T & x) const 
+  { cout << x << "  "; 
+  ++Count; }
+  int Count;
+};
+返回bool值的一元函数就是一元谓词。这种函数可供STL算法用于判断。  operator()是函数运算符重载，将类当做函数进行使用。
+一元谓词被大量用于STL算法中：find_if(); partition(); stable_partition(); remove_if();
+
+二元函数：可用于对两个操作数执行运算。   vector.resize()用来为容器预设存储空间。
+可使用算法std::transform将两个范围的对应元素内容相乘，并将结果存储在第三个范围中。
+接受两个参数并返回一个bool值的函数时二元谓词，这种函数用于诸如std::sort等STL函数中。
+std::transform()的用途非常广泛，要自行查看库中的定义。
+很多STL算法都要使用二元谓词：
+删除相邻重复元素的std::unique；排序算法std::sort；排序并保持相对顺序的std::stable_sort；对两个范围进行操作的std::transform

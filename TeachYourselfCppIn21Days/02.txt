@@ -1,0 +1,6 @@
+第2章 C++程序的组成部分
+
+# 预处理  int main()    std 标准命名空间    cin cout  输入输出对象   <<重定向运算符   字符串用""括起
+endl要比"\n"更好，适用于操作系统。  std::cout   std::cin   std::endl    using std::cout     using namespace std
+注释：  //单行注释   /*  */多行注释   ///能够生成文档，非标准成分
+好注释说明一段代码如何工作，坏注释说明某行。    注释不能嵌套。

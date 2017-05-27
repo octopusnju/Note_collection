@@ -1,0 +1,50 @@
+第3章 使用变量和常量
+
+signed unsigned 符号区别
+
+变量类型               长度
+bool                     1
+unsigned short int       2   int 都可以省略
+short int                2
+unsigned long int        4
+long int                 4
+int(16bit)               2
+int(32bit)               4
+unsigned int(16bit)      2
+unsigned int(32bit)      4
+char                     1
+float                    4
+double                   8
+
+C++区分大小写
+命名规则：下划线表示法，驼峰表示法，匈牙利表示法（不建议）。
+
+C++关键字：
+asm, auto, bool, break, case, catch, char, class, const, const_cast, continue, default, delete, do, double,
+dynamic_cast, else, enum, explicit, export, extern, false, float, for, friend, goto, if, inline, int, long,
+mutable, namespace, new, operator, private, protected, public, register, reinterpret_cast, return, short,
+signed, sizeof, static, static_cast, struct, switch, template, this, throw, true, try, typedef, typeid,
+typename, union, unsigned, using, virtual, void, volatile, wchar_t, while.
+保留字：
+And, bitor, not_eq, xor, and_eq, compl, or, xor_eq, bitand, not, or_eq.
+
+typedef 为短语创建别名        #define 为常量创建别名      unsigned类型回绕 signed类型回绕    强制类型转换 (typename)
+
+特殊字符
+\a    响铃
+\b    退格
+\f    换页
+\n    换行
+\r    回车
+\t    制表符
+\v    垂直制表符
+\'    单引号
+\"    双引号
+\?    问号
+\\    反斜杠
+\000  八进制表示
+\xhhh 十六进制表示
+
+#define 预处理，进行简单的文本替换，不指定类型。
+const 指定类型，不能被程序修改
+枚举常量 enum name {p1, p2 ... pn};  //name枚举名称，p1=0, pn=n-1,也可以指定值，后面仍然递增。类似于多个const

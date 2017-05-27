@@ -1,0 +1,69 @@
+第15章 宏和模板简介
+
+预处理器 在编译之前，使用预处理指令控制应用程序的行为，每条预处理指令都以#大头，预处理结束后再进行编译。
+预处理器指令#define    #define NAME xxx   将所有的NAME替换为xxx，没有分号作为结尾，因为不是语句。
+预处理器进行基于纯粹的文本替换，并不执行上下文相关检查。使用预处理器不是类型安全的，可能会带来严重后果。
+宏函数#define fuc(x) statement    宏的定义中，参数列表的左括号必须紧跟在宏名后面，中间不能有空格。否则会进行标准替换。
+将负责的值传递给宏时，括号有助于避免副作用。如果传递的是复杂的表达式，不使用括号会使结果与预期不同。
+宏只是预处理器提供的一种文本替换功能，不进行类型检查。
+宏存在的问题：
+1.所有宏必须在一行中定义，可以使用\扩展到下一行；
+2.宏在每次被使用时都按内联方式展开，扩充源代码的长度，但减少调用的开销；
+3.宏不能出现在编译器使用的中间源代码中，在大多数调试器中无法看到，调试不便；
+4.宏不是类型安全的，完全破坏了C++的强类型功能。
+通常可以不使用宏，而声明一个内联函数。会进行同样的内联方式展开替代，减少函数调用的开销。
+约定宏名进行大写，便于识别。宏的每个参数都应该括起。  在const变量可行的情况下，不要使用#define（const是类型安全的）
+
+模板是C++语言中功能最强大却最少被使用的特性之一。  关键字template
+模板声明语法：template <parameter list>   ...templater declaration...
+关键字 typename 用于指出模板声明中非独立名称是类型名，而非变量名。
+
+函数模板声明：
+template <typename objectType>
+objectType & GetMax(const objectType & value1, const objectType & value2)
+{ if(value1 > value2) return value1;
+  else return value2; }
+调用方式：int nMaxValue = GetMax <int> (nValue1, nValue2);    
+  
+模板声明可以是：
+函数的声明或定义；类的声明或定义；类模板的成员函数或成员类的声明或定义；
+类模板的静态数据成员的定义；类或类模板的成员模板的定义。
+
+模板类是模板化的C++类，声明：
+template <typename T>
+class CMyFirstTemplateClass
+{
+  public:
+    void SetVariable (T & newValue) { m_Value = newValue; }
+    T & GetValue() { return m_Value; }
+  private:
+    T m_Value;
+};
+调用方式： CMyFirstTemplateClass <int> mHoldInteger;   即模板的实例化
+模板是类型安全的，会检查参数类型。而宏则完全不进行检查。
+
+模板参数列表包含多个参数时，参数之间用逗号分隔。比如一个存储两个不同类型对象的泛型类的声明：
+template <typename T1, typename T2>
+class CHoldPair
+{
+  private:
+    T1 m_Value1;
+    T2 m_Value2;
+  public:
+    CHoldPair(const T1 & value1, const T2 & value2)
+    { m_Value1 = value1; m_Value2 = value2; }
+};
+调用方式：CHoldPair <int, double> pairIntDouble(6, 1.99);
+
+使用默认参数来声明模板：
+template <typename T1=int, typename T2=double>
+class CHoldPair
+{
+  //...Function declarations
+};
+默认参数调用方式：CHoldPair <> pairIntDouble(6, 1.99);
+
+使用模板相当于定义了一种模式，可通过重用该模式针对不同的变量类型实现相同的逻辑，让用户指定函数参数的类型，提高代码的复用性。
+模板最重要也是最强大的应用是在标准模板库（STL）中。
+当一个概念适用于不同类或基本数据类型的对象时，应使用模板来实现它。
+宏和内联函数中应尽量选择内联函数；宏函数和模板中应优先选择模板；预处理是为了向后与C兼容，还常用于多重防范。

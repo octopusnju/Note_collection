@@ -1,0 +1,169 @@
+第19章 STL list
+
+头文件 #include <list>
+标准模板库STL以模板类std::list的方式提供了一个双向链表。
+在STL list中插入元素所需的时间是固定的，而不管是在开头、中间还是末尾插入。
+实例化list的语法： list <MyFavoriteType> listMyFavorateObjects;
+可以使用list的成员方法.push_front()在list开头插入元素。
+可以使用list的成员方法.push_back()在list末尾插入元素。
+
+在std::list中间插入元素所需的时间是固定的，由成员函数.insert()完成。实现方法有三个：
+1. iterator insert(iterator pos, const T & x)  //pos是插入位置，x是要插入的值，返回指向刚插入的元素的迭代器。
+2. void insert(iterator pos, size_type n, const T & x)  //pos是插入位置，x是插入的值，n是要插入的元素个数。
+3. template <class InputIterator>     void insert(iterator pos, InputIterator f, InputIterator l)
+//接受一个位置参数和两个输入迭代器，将集合中相应范围内的元素插入到list的指定位置中。
+迭代器的类型要对应，const对象使用const_iterator定义迭代器。
+
+在std::list中间删除元素有成员函数.erase()完成。具有两种重载版本：
+1. 接受一个迭代器参数并删除迭代器指向的元素
+2. 接受两个迭代器参数并删除指定范围内的所有元素
+
+动态数组类可以对迭代器进行某个整数的移动，但动态链表只能自增自减单步移动。
+
+list的一个独特之处是，指向元素的迭代器在list的元素重新排列或插入元素后仍有效。为此list提供了成员方法.sort()和.reverse()。
+list的成员函数.reverse()没有参数，将反转list中元素的排列顺序。使用时调用运算符<对元素进行比较和排序
+list的成员函数.sort()有两个版本：一个没有参数；另一个接受一个二元谓词函数作为参数，将根据该谓词指定的标准进行排序。
+使用前一个版本是，调用运算符<对元素进行比较和排序。
+二元谓词是一个函数，它接受两个输入值，并返回一个bool值指出第一个值是否比第二个值小。可返回!bool的值来进行反向排序。
+能够创建用于存储任何类型的对象的list。
+
+应用实例：
+#include <string>
+#include <list>
+#include <iostream>
+using namespace std;
+
+enum MenuOptionSelection{
+	InsertContactListEntry = 0,
+	SortOnName = 1,
+	SortOnNumber = 2,
+	DisplayEntries = 3,
+	EraseEntry = 4,
+	QuitContactList = 5
+};
+
+struct ContactListItem{
+	string strContactsName;
+	string strPhoneNumber;
+	ContactListItem(const string & strName, const string & strNumber)
+	{
+		strContactsName = strName;
+		strPhoneNumber = strNumber;
+	}
+	bool operator == (const ContactListItem & itemToCompare) const
+	{
+		return (this->strContactsName == itemToCompare.strContactsName );
+	}
+	bool operator < (const ContactListItem & itemToCompare) const
+	{
+		return (this->strContactsName < itemToCompare.strContactsName );
+	}
+};
+
+int ShowMenu();
+ContactListItem GetContactInfo();
+void DisplayContactList(const list <ContactListItem> & listContacts);
+void EraseEntryFromList(list <ContactListItem> & ListContacts);
+bool Predicate_CheckItemsOnNumber(const ContactListItem & item1, const ContactListItem & item2);
+
+int main()
+{
+	list <ContactListItem> listContacts;
+	int nUserSelection = 0;
+	
+	while((nUserSelection = ShowMenu()) != (int) QuitContactList)
+	{
+		switch (nUserSelection)
+		{
+			case InsertContactListEntry:
+				listContacts.push_back(GetContactInfo());
+				cout << "Contacts list updated!" << endl << endl;
+				break;
+			case SortOnName:
+				listContacts.sort();
+				DisplayContactList(listContacts);
+				break;
+			case SortOnNumber:
+				listContacts.sort(Predicate_CheckItemsOnNumber);
+				DisplayContactList(listContacts);
+				break;
+			case DisplayEntries:
+				DisplayContactList(listContacts);
+				break;
+			case EraseEntry:
+				EraseEntryFromList(listContacts);
+				DisplayContactList(listContacts);
+				break;
+			case QuitContactList:
+				cout << "Ending application, bye!" << endl;
+				break;
+			default:
+				cout << "Invalid input '" << nUserSelection <<".'" << "Choose an option between 0 and 4" << endl << endl;
+				break;
+		}
+	}
+	cout << "Quitting! Bye!" << endl;
+	
+	return 0;
+}
+
+int ShowMenu()
+{
+	cout << "*** What would you like to do next? ***" << endl << endl;
+	cout << "Enter 0 to feed a name and phone number" << endl;
+	cout << "Enter 1 to sort the list by name" << endl;
+	cout << "Enter 2 to sort the list by number" << endl;
+	cout << "Enter 3 to Display all entries" << endl;
+	cout << "Enter 4 to erase an entry" << endl;
+	cout << "Enter 5 to quit this application" << endl << endl;
+	cout << "> ";
+	
+	int nOptionSelected = 0;
+	cin >> nOptionSelected;
+	cout << endl;
+	return nOptionSelected;
+}
+
+bool Predicate_CheckItemsOnNumber(const ContactListItem & item1, const ContactListItem & item2)
+{
+	return (item1.strPhoneNumber < item2.strPhoneNumber);
+}
+
+ContactListItem GetContactInfo()
+{
+	cout << "*** Feed contact information ***" << endl;
+	string strName;
+	cout << "Please enter the person's name" << endl;
+	cout << "> ";
+	cin >> strName;
+	string strPhoneNumber;
+	cout << "Please enter " << strName << "'s phone number" << endl;
+	cout << "> ";
+	cin >> strPhoneNumber;
+	
+	return ContactListItem(strName, strPhoneNumber);
+}
+
+void DisplayContactList(const list <ContactListItem> & listContacts)
+{
+	cout << "*** Displaying contact information ***" << endl;
+	cout << "There are " << listContacts.size() << " entries in the contact list" << endl;
+	
+	list <ContactListItem> :: const_iterator iContact;
+	for(iContact = listContacts.begin(); iContact != listContacts.end(); ++iContact)
+	{
+		cout << "Name: " << iContact->strContactsName << "   Number: " << iContact->strPhoneNumber << endl;
+	}
+	cout << endl;
+}
+
+void EraseEntryFromList(list <ContactListItem>& listContacts)
+{
+	cout << "*** Erase an entry ***" << endl;
+	cout << "Enter the name of the contact you wish to delete" << endl;
+	cout << "> ";
+	string strNameToErase;
+	cin >> strNameToErase;
+	
+	listContacts.remove(ContactListItem(strNameToErase,"")) ;
+}

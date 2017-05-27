@@ -1,0 +1,41 @@
+第17章 STL string类
+
+需要包含头文件<string>
+
+标准模板库STL提供了一个用于字符串操作的类。
+string类不仅能够根据需求动态调整大小，还提供助手函数帮助操作字符串，使用可移植功能。
+
+字符串的定义方式变迁：
+有限长度 char pszName[20]; --> 动态分配 char * pszName = new char[nArrayLength];  在某些类成员操作中，赋值或者复制会带来问题。
+使用字符串类代替字符数组或字符指针（STL string类std::string）：
+1.减少程序员在创建和操作字符串方面所需做的工作；
+2.提供在内部管理内存分配细节的应用程序的稳定性；
+3.提供可确保成员字符串得以正确的复制构造函数和赋值运算符；
+4.提供有助于复制、截短、查找和删除等操作的实用函数；
+5.提供用于比较的运算符；
+6.让程序员能够将精力放在应用程序的主要需求而不是字符串操作细节上。
+
+STL string类中最常用的字符串函数包括：复制；连接；查找字符和字字符串；截短；使用标准模板库提供的算法实现字符串反转和大小写转换。
+string类提供了很多重载的构造函数，可以用多种方式进行实例化和初始化。
+例：string str1(str2); string str1(str2, 5); string str(10,'a'); string str("Hello"); 
+string类的成员函数：.length(); .begin(); .end(); const_iterator; .c_str(); ...具体见代码使用。
+
+.append(); .find(); .find_first_of(); .find_first_not_of(); .find_last_of(); .find_last_not_of();
+
+string::erase() 
+用途：1.在给定偏移位置和字符数时删除指定数目的字符；2.在给定指向字符的迭代器时删除字符；3.在给定由两个迭代器指定的范围时删除该范围内的字符。
+string类还提供了clear()函数，该函数清除全部内容并重置string对象。
+反转STL string很容易，使用std::reverse()算法即可。
+要对字符串进行大小写转换，可使用算法std::transform，它对集合中的每个元素执行用户指定的函数。
+输入字符串可使用getline(cin, str1);
+
+std::string类实际上是STL模板类std::basic_string <T>的具体化。
+容器类basic_string的模板声明如下：
+template<class _Elem, class _Traits, class _Ax> 
+class basic_string
+_Elem指定basic_string对象将存储的数据类型：_Elem=char，则为string类；_Elem=wchar，则为wstring类。
+即STL string类定义：typedef basic_string <char, char_traits<char>, allocator<char>> string;
+STL wstring类定义：typedef basic_string <wchar_t, char_traits<wchar_t>, allocator<wchar_t>> string;
+
+STL string类是标准模板库提供的一个容器，可以满足字符串操作的需求，将原本由程序员负责的操作改由容器类完成，提高效率。
+

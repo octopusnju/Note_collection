@@ -1,0 +1,123 @@
+第23章 STL算法
+
+#include <algorithm>  存放了很多重要的通用函数，可帮助操作容器的内容。
+STL通过通用的模板函数提供了查找、搜索、删除和计数等很多算法，可通过迭代器对容器进行操作。 不是所有算法都对容器进行操作。
+STL算法分为两大类：非变序算法与变序算法。
+
+不改变容器中元素的顺序和内容的算法称为非变序算法。包括：
+计数算法
+count             //在指定范围内查找值与指定值匹配的所有元素
+count_if          //在指定范围内查找值满足指定条件的所有元素
+搜索算法
+search            //在目标范围内，根据元素的相等性(==)或指定二元谓词搜索第一个满足条件的序列
+search_n          //在目标范围内搜索与指定值相等或满足指定谓词的n个元素
+find              //在给定范围内搜索与指定值匹配的第一个元素
+find_if           //在给定范围内搜索满足指定条件的第一个元素
+find_end          //在指定范围内搜索最后一个满足特定条件的序列
+find_first_of     //在目标范围内搜索指定序列中的任何一个元素第一次出现的位置；
+                  //在另一个重载版本中，它搜索满足指定条件的第一个元素
+adjacent_find     //在集合中搜索两个相等或满足指定条件的元素
+比较算法
+equal             //比较两个元素是否相等或使用指定的二元谓词判断两者是否相等
+mismatch          //使用指定的二元谓词找出两个元素范围的第一个不同的地方
+lexicographical_compare     //比较两个序列中的元素，以判断哪个序列更小
+
+变序算法改变其操作的序列的元素顺序或内容。包括：
+初始化算法
+fill           //将指定值分配给指定范围中的每个元素
+fill_n         //将指定值分配给指定范围中的前n个元素
+generate       //将指定函数对象的返回值分配给指定范围中的每个元素
+generate_n     //将指定函数对象的返回值分配给指定范围中的前n个元素
+修改算法
+for_each       //对指定范围内的每个元素执行指定的操作。当指定的参数修改了范围时，for_each将是变序算法。
+transform      //对指定范围中的每个元素执行指定的一元函数
+复制算法
+copy           //将一个范围复制到另一个范围
+copy_backward  //将一个范围复制到另一个范围，但在目标范围中将元素的排列顺序反转。
+删除算法
+remove         //将指定范围中包含指定值的元素删除
+remove_if      //将指定范围中满足指定一元谓词的元素删除
+remove_copy    //将源范围中除包含指定值外的所有元素复制到目标范围
+remove_copy_if //将源范围中除满足指定一元谓词外的所有元素复制到目标范围
+unique         //比较指定范围内的相邻元素，并删除重复的元素；
+               //该算法还有一个重载版本，使用二元谓词来判断要删除哪些元素
+unique_copy    //将源范围内的所有元素复制到目标范围，但相邻的重复元素除外
+替换算法
+replace        //用一个值来替换指定范围中与指定值匹配的所有元素
+replace_if     //用一个值来替换指定范围中满足指定条件的所有元素
+排序算法
+sort           //使用指定的排序标准对指定范围内的元素进行排序，排序标准由二元谓词提供。可能改变相等元素的相对顺序。
+stable_sort    //类似于sort，但在排序时保持相对顺序
+partial_sort   //将源范围内指定数量的元素排序
+partial_sort_copy     //将源范围内的元素复制到目标范围，同时对它们排序
+分区算法
+partition      //在指定范围中，将元素分为两组：满足指定一元谓词的元素放在第一组中，其他元素放在第二组中。不一定保持相对顺序。
+stable_partition     //与partition一样将指定范围分为两组，但保持元素的相对顺序不变。
+可用于排序容器的算法
+binary_search  //用于判断一个元素是否存在于一个排序集合中
+lower_bound    //根据元素的值或二元谓词判断元素可能插入到排序集合中的第一个位置，并返回一个指向该位置的迭代器。
+upper_bound    //根据元素的值或二元谓词判断元素可能插入到排序集合中的最后一个位置，并返回一个指向该位置的迭代器。
+
+vecInt.push_back(value);   vecInt.begin();   vecInt.end();   vecInt.size();
+size_t nCount = count_if(vecInt.begin(), vecInt.end(), 一元谓词); 
+size_t nCount = count(vecInt.begin(), vecInt.end(), value);
+vector <int>::iterator iFound = find(vecInt.begin(), vecInt.end(), value); 
+vector <int>::iterator iFound = find_if(vecInt.begin(), vecInt.end(), 一元谓词);
+谓词和STL算法可提高代码的可复用性，使代码更高效且更易于维护。
+
+vector <int>::iterator iLocator = search(vecInt.begin(), vecInt.end(), vecInt1.begin(), vecInt1.end());
+vector <int>::iterator iLocator = search(vecInt.begin(), vecInt.end(), CountOfItems, Item);
+distance(vecInt.begin(), iLocator);
+迭代器和算法之间的联系非紧密，提供这些迭代器的容器的物理特性对算法没有意义。
+
+STL算法fill和fill_n用于将容器的内容设置为指定值。
+fill将指定范围内的元素设置为指定值，fill_n接受的参数包括开始位置，计数n以及要设置的值。
+fill(vecInt.begin(), vecInt.end(), 9)
+fill_n(vecInt.begin()+3, 3, -9)
+初始化元素个数 vector <int> vecInt(3);  单在后面的操作中会根据函数的需要进行自动扩容。
+generate和gnenrate_n等STL算法可将集合初始化为文件的内容或随机值
+generate(vecInt.begin(), vecInt.end(), rand);
+generate_n(vecInt.begin(), 5, rand);
+
+for_each算法对指定范围内的每个元素执行指定的一元函数对象，用法如下：
+unaryFunctionObjectType mReturn = for_each( start_of_range, end_of_range, unaryFunctionObject );
+返回用于对指定范围内的每个元素进行处理的函数对象，使用结构或类作为函数对象可存储状态信息，并在for_each执行完毕后查询。
+for_each和std::transform很类似，它们都对源范围内的每个元素调用指定函数对象。
+然而std::transform有两个版本：一个接受一元函数，一个接受二元函数。即可以处理一对来自两个不同范围的元素。
+transform的两个版本都将指定变换函数的结果赋给指定的目标范围。
+
+string类也是一种容器类：
+.resize(value);//重新分配string的大小     .size()获得string的大小
+.begin();      .end();     
+函数：plus <int>() 和 transform 运行有问题，自行排查是否与编译器相关，还是语法错误。
+
+STL提供了两个重要的复制函数：copy和copy_backward。向前方向赋值，向后方向赋值。【赋值的方向相反】
+remove将容器中与指定值匹配的元素删除，而remove_if使用一个一元谓词并将容器中满足该谓词的元素删除。
+vector <int>::iterator iLastPos = copy(listInt.begin(), listInt.end(), vecInt.begin());
+vector <int>::iterator iLastPos2 = copy_backward(listInt.begin(), listInt.end(), vecInt.end());
+等效于 copy(listInt.begin(), listInt.end(), iLastPos); //即虽然赋值的方向相反，但赋值后的元素顺序是相同的。
+vector <int>::iterator iNewEnd = remove(vecInt.begin(), vecInt.end(), 0);     //不改变容器大小和减少报告的元素数
+vecInt.erase(iNewEnd, vecInt.end());   //用于在remove操作之后纠正容器的大小。
+
+STL算法replace和replace_if分别用于替换集合中等于指定值和满足给定条件的元素，前者根据==判断，后者根据一元谓词判断。
+random_shuffle(vecInt.begin(), vecInt.end());
+replace(vecInt.begin(), vecInt.end(), 5, 8);   //将所有的5替换成8
+replace_if(vecInt.begin(), vecInt.end(), IsEven, -1);   //所有的偶数替换成-1，IsEven自行定义
+
+可以使用std::sort将一个范围排序，使用std::binary_search在有序的范围内进行搜索，使用std::unique删除相邻的重复元素。
+sort(vecInt.begin(), vecInt.end());
+bool bElementFound = binary_search(vecInt.begin(), vecInt.end(), value);
+vector <int>::iterator iNewEnd = unique(vecInt.begin(), vecInt.end());   vecInt.erase(iNewEnd, vecInt.end());
+
+std::partition用于将输入范围分为两部分：一部分满足一元谓词，另一个不满足。
+std::partition不保证每个分区中元素的相对顺序不变，std::stable_partition保持相对顺序不变。
+partition(vecInt.begin(), vecInt.end(), IsEven);
+stable_partition(vecInt.begin(), vecInt.end(), IsEven);
+
+将元素插入到有序集合中时，经常需要将其插入到正确位置。
+lower_bound和upper_bound分别返回在不破坏现有顺序的情况下，元素可插入到有序范围内的最前位置和最后位置。
+list <string> // listName.sort(); 对list排序
+list <string>::iterator iMinInsertPosition = lower_bound(listName.begin(), listName.end(), "Zhang");
+list <string>::iterator iMaxInsertPosition = upper_bound(listName.begin(), listName.end(), "Zhang");
+listName.insert(iMinInsertPosition, "Zhang");
+distance(listName.begin(), iMinInsertPosition);

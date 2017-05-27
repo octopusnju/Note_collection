@@ -1,0 +1,32 @@
+第20章 STL set与multiset
+
+头文件 #include <set>
+标准模板库（STL）提供了一些容器类，以便在程序中进行频繁而快速的搜索。
+容器set和multiset能够快速查找键，键是存储在一维容器中的值。set只能存储唯一的值，multiset可以存储重复值。
+键可以是字符串、整形、结构或类对象，因为STL容器是泛型模板类。
+STL set和multiset的内部结构像一颗二叉树，元素插入时将对其进行排序，以提高查找速度。
+set中特定位置的元素不能替换为值不同的新元素，set会把新元素同二叉树中的其他元素进行比较，进而放在其他位置。（不同于vector）
+实例化的语法： set <ObjectType> setObj;  multiset <ObjectType> msetObj;
+默认排序调用的运算符为<.若想覆盖其排序机制，实例化时指定第二个参数为二元谓词：set <ObjectType, OptionalBinaryPredicate> setObj;
+
+set和multiset的大多数函数的用法类似，接受类似的参数，返回类型也类似。
+要在容器中插入元素，可使用成员函数.insert(); //多种掺入方式。
+.count()用来查看某个元素在容器中的个数。 .begin(); .end();
+在使用typename来声明模板泛型的时候，模板内部的泛型前面一定要跟上typename关键字。
+.find()用来查找第一个与给定键匹配的值。
+
+.erase()能够删除值，具体用法有三种：
+根据键删除值：.erase(key);
+接受一个迭代器作为参数删除迭代器指向的元素：.erase(iElement);
+通过使用迭代器指定的边界，将指定范围内的所有元素都删除：.erase(iLowerBound, iUpperBound);
+如果要删除的值在容器中并不存在，则不进行操作。
+this指针指向当前的对象，一般在类的成员函数中使用。
+一般进行引用传递的时候都使用引用&进行传递，而不是指针*，因为这样更简单明了，也安全。
+
+至少进行两个运算符重载 == 和 <
+
+对需要频繁查找的应用程序来说，STL set和multiset很有优势，因为内容是经过排序的，查找元素速度更快。但是在插入时会带来额外开销。
+在vector中，可以使用新值替换迭代器指向的元素；set不能使用迭代器覆盖元素的值。
+
+声明升序排列：set <int, less<int> >     声明降序排序：set <int, greater<int> >   
+应将指向set中元素的迭代器视为const迭代器。

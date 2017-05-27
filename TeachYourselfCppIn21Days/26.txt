@@ -1,0 +1,95 @@
+第26章 理解智能指针
+
+管理堆（或自由存储区）中的内存时，并非一定要用常规指针，还可使用更智能的指针。
+C++中的智能指针是包含重载运算符的类，其行为像常规指针，但能及时妥善地销毁动态分配的数据，实现了定义良好的对象生命周期管理策略。
+常规指针带来的问题：与内存相关的问题具有不明确性，比如动态分配的对象没有正确释放时导致内存泄露。
+智能指针通过重载的运算符和析构函数确保动态分配的数据能够及时销毁。
+智能指针类重载了解除引用运算符*和成员选择运算符->，从而可以像常规指针一样来使用。
+几乎所有良好的智能指针类都是模板类，包含其功能的泛型实现。
+例：
+template <typename T>
+class smart_pointer
+{
+  public:
+    smart_pointer(T * pData) : m_pRawPointer(pData){}           //构造函数
+    ~smart_pointer() { delete pData; }                          //析构函数
+    smart_pointer(const smart_pointer & anotherSP);             //复制构造函数
+    smart_pointer & operator = (const smart_pointer & anotherSP);    //赋值运算符重载
+    T & operator * () const { return *(m_pRawPointer); }             //解除引用运算符重载
+    T * operator -> () const { return m_pRawPointer; }              //成员选择运算符重载
+  private:
+    T * m_pRawPointer;          //普通指针
+};
+
+smart_pointer <CDog> pSmartDog(new CDog);
+pSmartDog->Bark();
+int nAge = (*pSmartDog).GetAge();
+//指针的特征行为包括：赋值=，解除引用*，成员选择->。
+
+管理内存资源是智能指针与众不同的地方，根据内存管理策略的分类可以有如下几类：
+深度复制； 写时复制； 引用计数； 引用链接； 破坏性复制。
+
+在实现深度复制的智能指针中，每个智能指针实例都保存一个它管理的对象的完整副本。
+当智能指针被复制时，也将复制它指向的对象。每当指针离开作用域时，将释放它指向的内存。
+基于深度复制的智能指针不比按值传递对高，但在处理多态对象时，优点明显。
+比如可避免切片问题（在使用基类指针定义的值传递函数时，传递派生类对象会只传递包含基类部分的内容，其余部分被切掉）。
+例：
+template <typename T>
+class deepcopy_smart_pointer
+{
+  public:
+    deepcopy_smart_pointer(const deepcopy_smart_pointer & source) { m_pObject = source->Clone(); }
+  private:
+    T * m_pObject;
+};  
+深度复制智能指针实现了一个复制构造函数，对象必须实现Clone函数，实现深度复制模型的智能指针通过模板参数或函数对象提供该函数。
+当智能指针作为指向基类的指针被传递时，其构造函数实现的深度复制将发挥作用，确保对象不会出现切片问题。
+基于深度复制的机制不足之处在于性能。
+
+写时复制机制(Copy on Write, COW)试图对深度复制智能指针的性能进行优化，它共享指针，直到首次写入对象。
+首次调用非const函数时，COW指针通常为该非const函数操作的对象创建一个副本，而其他指针实例仍共享源对象。
+实现const和非const版本的运算符*和->，是实现COW指针功能的关键。非const版本用于创建副本。
+选择COW指针时，在使用这样的实现前务必理解其实现细节。
+
+引用计数智能指针
+引用计数是一种记录对象的用户数量的机制。当计数降低到零后，便将对象释放。
+引用计数提供了一种优良的机制，可共享对象而无法对其进行复制。
+这种智能指针被复制时，需要将对象的引用计数加1，常用的计数跟踪方法有：
+1.在对象中维护引用计数，成为入侵式引用计数，需要修改对象以维护和递增引用计数并将其提供给管理对象的智能指针。
+2.引用计数由共享对象中的指针类维护，智能指针类将计数保存在自由存储区，复制时复制构造函数将这个值加1.
+只应该通过智能指针来处理使用引用计数机制的对象。
+引用计数有一个独特的问题：如果两个对象分别存储指向对方的指针，这两个对象永远不会被释放。
+
+引用链接智能指针
+不主动维护对象的引用计数，只需要知道计数什么时候变成零，以便能够释放对象。
+其实现基于双向链表，通过复制智能指针来创建新智能指针时，新指针被插入到链表中。
+当智能指针离开作用域进而被销毁时，析构函数将其从链表中删除。也存在生命周期依赖性导致的问题。
+
+破坏性复制
+在智能指针被复制时，将对象的所有权转交给目标指针并重置原来的指针。
+破坏性机制复制使用起来并不直观，但可确保任何时刻只有一个活动指针指向对象，非常适合从函数返回指针及需要利用破坏性的情形。
+std::auto_ptr是最流行的破坏性复制指针。当这种智能指针被传递给函数或复制给另一个指针时，它就没用了。
+例：
+template <typename T>
+class destructivecopy_pointer
+{
+  private:
+    T * m_pObject;
+  public:
+    destructivecopy_pointer(destructivecopy_pointer & source) { m_pObject = source.m_pObject; source.m_pObject = 0; }
+    destructivecopy_pointer & operator =(destrutivecopy_pointer & source)
+    {
+      if (m_pObject != source.m_pObject)
+      {
+        deletc m_pObject;        m_pObject = source.m_pObject;        source.m_pObject = 0;
+      }
+    }
+};
+通过包含的复制构造函数和赋值运算符重载，使源指针在复制后失效，实现破坏性复制。不能接受const引用，不适合用于STL容器。
+
+std::auto_ptr是一种基于破坏性复制的智能指针，它在复制时交出对象的拥有权，并在离开作用域时释放其拥有的对象。 
+头文件#include <memory>
+智能指针能够管理对象的生命周期，可使用复杂的智能指针编写多线程应用，以便同步访问动态分配的数据。
+智能指针有上百万中，应该靠使用文档来完善可靠的智能指针。
+
+
