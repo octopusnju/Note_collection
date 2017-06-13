@@ -62,3 +62,42 @@ vim -O file1 file2 ... 让vim为每一个文件打开一个窗口，窗口按照
 
 :all 为命令行上指定的所有文件各开一个窗口，并水平分隔排列；
 :vertical all 为命令行上指定的所有文件各开一个窗口，并垂直分隔排列；
+
+08.07 使用vimdiff查看不同
+
+shell中输入：
+vimdiff file1 file2
+
+打开左右两个垂直分隔的窗口，只显示变化行及其附近的几行，没有被修改的行被折叠到单独一行。
+修改行：changed line
+删除行：deleted line
+折叠：fold
+
+zo 展开折叠
+zc 折叠展开的内容
+
+vim内部对比两个文件的方法：
+:edit file1
+:vertical diffsplit file2
+
+vim内部对比原文件和patch的方法：
+:edit file
+:vertical diffpatch file.diff
+
+:set noscrollbind //取消同步滚动
+]c //定位到前一个不同的位置
+[c //定位到后一个不同的位置
+n]c //定位到前n个不同的位置
+n[c //定位到后n个不同的位置
+
+:diffupdate //在对文件发生修改后重新比较两个文件
+dp(diff put) //用当前窗口的内容替换另一个窗口中的差异内容，消除此处差异
+do(diff obtain) //从另一窗口中取出差异内容替换到当前窗口，消除此处差异
+
+感觉这几个功能很适用于svn或者git的合并工作，应该是vim专门提供的就是用来做这个的吧。
+
+
+
+
+
+
