@@ -31,3 +31,23 @@ set incsearch  //在你键入要搜索的字符串的同时就开始搜索当前
 
 map Q gq  //定义了一个Q命令，并映射到gq操作符命令
 
+vnoremap _g y:exe "grep /" . escape(@", '\\/') . "/ *.c *.h"<CR>  //这个映射取得Visual区域的内容，然后在C文件中搜索，复杂的映射
+
+if &t_Co > 2 || has("gui_running")
+  syntax on  //打开语法高亮功能
+  set hlsearch  //高亮所有与最后一次搜索目标串相匹配的文本
+endif
+//当系统支持彩色显示时打开语法高亮功能
+
+filetype plugin indent on  //自动识别文件类型；用文件类型plugin脚本；使用缩进定义文件
+
+autocmd FileType text setlocal textwidth=78  //当前行超过78个字符的时候，自动断行，只对普通文本文件text有效
+
+autocmd BufReadPost *
+  \ if line("'\'") > 1 && line("'\'") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
+//检查是否定义了标记'"，如果定义了就跳转到这个位置。是用于所有类型的文件。
+//反斜杠表示该行是前一行命令的延续
+
+
