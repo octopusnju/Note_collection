@@ -1,1 +1,33 @@
+05.01 vimrc文件
+
+:$MYVIMRC 在vim内部打开已存在的vimrc文件。【这个功能貌似不可用，是我理解有误吗？】
+:version 列出vim会在哪些目录中寻找vimrc文件。
+
+类Unix系统推荐的vimrc文件为：~/.vimrc，即位于用户目录下。
+vimrc文件里可以包含任何你可以在冒号命令行上使用的命令，只需要把冒号去掉，写入vimrc文件即可。
+冒号命令行内容 :set incsearch ---> vimrc文件内容 set incsearch
+
+05.02 vimrc示例
+
+vimrc示例文件存放位置：$VIMRUNTIME/vimrc_example.vim
+
+:help 学习更多的相关内容
+
+set nocompatible  //关闭对VI的兼容
+set backspace=indent,eol,start  //Insert模式下退格键何时可以删除光标之前的字符：行首空格，断行，进入Insert之前的位置【不太明白，实操一下】
+set autoindent  //在开始一个新行时对该行使用上一行的缩进方式
+
+if has("vms")
+  set nobackup
+else
+  set backup
+endif
+//覆盖一个文件之前备份该文件，但对vms系统除外，备份文件名由当前文件名加后缀"~"组成
+
+set history=50  //设置冒号命令和搜索命令的命令历史队列的长度
+set ruler  //总是在vim窗口右下角显示当前光标的行列信息
+set showcmd  //在vim窗口的右下角显示一个完整的命令已经完成输入的部分
+set incsearch  //在你键入要搜索的字符串的同时就开始搜索当前已经键入的部分
+
+map Q gq  //定义了一个Q命令，并映射到gq操作符命令
 
