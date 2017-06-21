@@ -59,4 +59,35 @@ autocmd BufReadPost *
 
 最好避免把已有的Vim命令作为一个映射，这样会覆盖其之前的功能。
 
+05.04 增加一个插件plugin
+
+【全局plugin】
+plugin是一个vim会自动载入执行的脚本，添加过程就是把一个vim脚本放入你的plugin目录就可以了。
+
+plugin文件的获取方式：
+1. 随vim一起发行：$VIMRUNTIME/macros
+2. 网上下载：http://www.vim.org
+3. vim的maillist
+4. 自己写
+
+plugin目录：~/.vim/plugin/
+更好的方法是在下面创建一级子目录，然后分类归置，比如用于不同语言的plugin。
+
+【文件类型plugin】
+不是自动执行的，需要手动进行开启。
+
+:filetype plugin on  //开启对文件类型plugin的使用
+
+plugin文件的获取方式：
+1. $VIMRUNTIME/ftplugin
+
+plugin目录：~/.vim/ftplugin/
+
+加载文件类型plugin是通过plugin文件名进行识别的，文件名的一般形式为：
+ftplugin/<filetype>.vim
+ftplugin/<filetype>_<name>.vim
+ftplugin/<filetype>/<name>.vim
+必须以.vim为扩展名！
+
+
 
